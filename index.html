@@ -74,15 +74,6 @@
             animation-delay: -5s;
         }
 
-        .shape-3 {
-            width: 150px;
-            height: 150px;
-            background: linear-gradient(135deg, rgba(0, 180, 216, 0.25), rgba(0, 119, 182, 0.15));
-            top: 40%;
-            right: 10%;
-            animation-delay: -10s;
-        }
-
         @keyframes float {
             0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
             25% { transform: translate(30px, -30px) rotate(90deg) scale(1.1); }
@@ -254,18 +245,8 @@
         }
         
         /* Form Styles */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--fg);
-            font-size: 0.875rem;
-        }
-
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--fg); font-size: 0.875rem; }
         .form-input {
             width: 100%;
             padding: 0.875rem 1rem;
@@ -276,12 +257,7 @@
             transition: all 0.3s ease;
             background: white;
         }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
-        }
+        .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15); }
 
         .btn {
             display: inline-flex;
@@ -303,25 +279,27 @@
             color: white;
             box-shadow: 0 4px 15px rgba(0, 180, 216, 0.35);
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 180, 216, 0.45);
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(0, 180, 216, 0.45); }
 
         .btn-secondary {
             background: transparent;
             color: var(--accent-dark);
             border: 2px solid var(--accent);
         }
-
-        .btn-secondary:hover {
-            background: rgba(0, 180, 216, 0.1);
+        .btn-secondary:hover { background: rgba(0, 180, 216, 0.1); }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-dark);
+            border: 2px solid var(--border);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent-dark);
+            background: rgba(0, 180, 216, 0.05);
         }
 
-        .btn-full {
-            width: 100%;
-        }
+        .btn-full { width: 100%; }
 
         /* Main Page Layout */
         .main-layout {
@@ -334,12 +312,8 @@
         }
 
         @media (max-width: 1100px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-            }
-            .sidebar {
-                order: -1;
-            }
+            .main-layout { grid-template-columns: 1fr; }
+            .sidebar { order: -1; }
         }
 
         /* Navbar */
@@ -361,34 +335,16 @@
             justify-content: space-between;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
+        .logo { display: flex; align-items: center; gap: 0.75rem; }
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
             border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
+        .logo-text { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--fg); }
 
-        .logo-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--fg);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
+        .nav-links { display: flex; gap: 2rem; }
         .nav-link {
             font-weight: 500;
             color: var(--muted);
@@ -397,55 +353,31 @@
             padding: 0.5rem 0;
             transition: color 0.3s ease;
         }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--accent-dark);
-        }
-
+        .nav-link:hover, .nav-link.active { color: var(--accent-dark); }
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
             background: var(--accent);
             transition: width 0.3s ease;
         }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
-        }
-
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
+        .user-menu { display: flex; align-items: center; gap: 1rem; }
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             color: white;
             font-weight: 600;
             font-size: 0.875rem;
         }
 
         /* Hero & Content */
-        .hero {
-            padding: 3rem 0;
-        }
-
-        .hero-content {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
+        .hero { padding: 3rem 0; }
+        .hero-content { text-align: center; margin-bottom: 3rem; }
         .hero-title {
             font-size: clamp(2rem, 5vw, 2.5rem);
             font-weight: 700;
@@ -453,10 +385,7 @@
             margin-bottom: 1rem;
             color: var(--fg);
         }
-
-        .hero-title span {
-            color: var(--accent-dark);
-        }
+        .hero-title span { color: var(--accent-dark); }
 
         /* Stats Grid */
         .stats-grid {
@@ -467,9 +396,7 @@
         }
 
         @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         .stat-card {
@@ -482,10 +409,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
         }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-        }
+        .stat-card:hover { transform: translateY(-3px); }
 
         .stat-value {
             font-family: 'Space Grotesk', sans-serif;
@@ -496,19 +420,11 @@
             margin-bottom: 0.25rem;
         }
 
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--muted);
-            font-weight: 500;
-        }
-
-        .stat-highlight {
-            color: var(--accent-dark);
-        }
-        
+        .stat-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+        .stat-highlight { color: var(--accent-dark); }
         .stat-success { color: var(--success); }
         .stat-warning { color: var(--warning); }
-        .stat-danger { color: var(--danger); }
+        .stat-empty { color: var(--muted); font-size: 1.5rem; }
 
         /* Feature Cards */
         .features-grid {
@@ -526,37 +442,19 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
             transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
         }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-        }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1); }
 
         .feature-icon {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             margin-bottom: 1rem;
         }
 
-        .feature-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--fg);
-        }
+        .feature-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--fg); }
 
-        .feature-list {
-            list-style: none;
-            margin-bottom: 1rem;
-        }
-
+        .feature-list { list-style: none; margin-bottom: 1rem; }
         .feature-list li {
             display: flex;
             align-items: flex-start;
@@ -565,11 +463,9 @@
             font-size: 0.85rem;
             color: var(--muted);
         }
-
         .feature-list li::before {
             content: '';
-            width: 5px;
-            height: 5px;
+            width: 5px; height: 5px;
             background: var(--accent);
             border-radius: 50%;
             margin-top: 0.4rem;
@@ -577,10 +473,7 @@
         }
 
         /* Comment Section (Sidebar) */
-        .sidebar {
-            padding-top: 1rem;
-        }
-
+        .sidebar { padding-top: 1rem; }
         .comment-section {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
@@ -603,32 +496,11 @@
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border);
         }
+        .comment-title { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+        .comment-count { background: var(--accent); color: white; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 20px; }
 
-        .comment-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .comment-count {
-            background: var(--accent);
-            color: white;
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-        }
-
-        .comment-input-area {
-            margin-bottom: 1rem;
-            display: none; /* Hidden by default */
-        }
-
-        .comment-input-area.active {
-            display: block;
-        }
-
+        .comment-input-area { margin-bottom: 1rem; display: none; }
+        .comment-input-area.active { display: block; }
         .comment-textarea {
             width: 100%;
             border: 2px solid var(--border);
@@ -640,11 +512,7 @@
             transition: all 0.3s ease;
             min-height: 80px;
         }
-
-        .comment-textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
+        .comment-textarea:focus { outline: none; border-color: var(--accent); }
 
         .guest-notice {
             background: rgba(245, 158, 11, 0.1);
@@ -654,20 +522,9 @@
             text-align: center;
             margin-bottom: 1rem;
         }
+        .guest-notice p { font-size: 0.85rem; color: var(--warning); margin-bottom: 0.5rem; }
 
-        .guest-notice p {
-            font-size: 0.85rem;
-            color: var(--warning);
-            margin-bottom: 0.5rem;
-        }
-
-        .comment-list {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 0.5rem;
-            space-y: 1rem;
-        }
-
+        .comment-list { flex: 1; overflow-y: auto; padding-right: 0.5rem; }
         .comment-item {
             padding: 1rem;
             border-radius: 12px;
@@ -675,68 +532,26 @@
             margin-bottom: 0.75rem;
             animation: fadeIn 0.4s ease;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .comment-item-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
+        .comment-item-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
         .comment-avatar {
-            width: 32px;
-            height: 32px;
+            width: 32px; height: 32px;
             border-radius: 50%;
             background: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             color: white;
             font-size: 0.75rem;
             font-weight: 600;
         }
-
-        .comment-author {
-            font-weight: 600;
-            font-size: 0.875rem;
-        }
-
-        .comment-time {
-            font-size: 0.75rem;
-            color: var(--muted);
-            margin-left: auto;
-        }
-
-        .comment-body {
-            font-size: 0.875rem;
-            color: var(--fg);
-            line-height: 1.5;
-        }
+        .comment-author { font-weight: 600; font-size: 0.875rem; }
+        .comment-time { font-size: 0.75rem; color: var(--muted); margin-left: auto; }
+        .comment-body { font-size: 0.875rem; color: var(--fg); line-height: 1.5; }
 
         /* Divider */
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        .divider span {
-            color: var(--muted);
-            font-size: 0.875rem;
-        }
+        .divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .divider span { color: var(--muted); font-size: 0.875rem; }
 
         /* Guest Badge */
         .guest-badge {
@@ -763,21 +578,11 @@
         }
 
         /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--muted);
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
-        /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -792,7 +597,6 @@
     <div class="bg-pattern">
         <div class="floating-shape shape-1"></div>
         <div class="floating-shape shape-2"></div>
-        <div class="floating-shape shape-3"></div>
         <div id="particles"></div>
     </div>
 
@@ -801,7 +605,6 @@
         <div class="login-container">
             <div class="login-form-section">
                 <div style="width: 100%; max-width: 380px;">
-                    <!-- Logo -->
                     <div class="logo" style="margin-bottom: 2rem;">
                         <div class="logo-icon">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
@@ -819,13 +622,11 @@
                             <label class="form-label">Email</label>
                             <input type="email" class="form-input" placeholder="nama@email.com" id="emailInput" required>
                         </div>
-
                         <div class="form-group">
                             <label class="form-label">Password</label>
                             <input type="password" class="form-input" placeholder="Masukkan password" id="passwordInput" required>
                         </div>
-
-                        <button type="submit" class="btn btn-primary btn-full" style="margin-bottom: 1rem;">
+                        <button type="submit" class="btn btn-primary btn-full" style="margin-bottom: 0.75rem;">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
                                 <polyline points="10 17 15 12 10 7"/>
@@ -833,11 +634,20 @@
                             </svg>
                             Login sebagai Subscriber
                         </button>
+                        
+                        <!-- Tombol Daftar Baru Ditambahkan Di Sini -->
+                        <button type="button" class="btn btn-outline btn-full" onclick="showRegisterAlert()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="8.5" cy="7" r="4"/>
+                                <line x1="20" y1="8" x2="20" y2="14"/>
+                                <line x1="23" y1="11" x2="17" y2="11"/>
+                            </svg>
+                            Daftar Akun Baru
+                        </button>
                     </form>
 
-                    <div class="divider">
-                        <span>atau</span>
-                    </div>
+                    <div class="divider"><span>atau</span></div>
 
                     <button class="btn btn-secondary btn-full" onclick="enterAsGuest()">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -846,10 +656,6 @@
                         </svg>
                         Masuk Mode Tamu
                     </button>
-
-                    <p style="text-align: center; margin-top: 1.5rem; font-size: 0.8rem; color: var(--muted);">
-                        * Mode tamu tidak dapat mengakses fitur komunitas.
-                    </p>
                 </div>
             </div>
 
@@ -872,7 +678,7 @@
                 </div>
                 <div style="z-index: 2;">
                     <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Pantau Kesehatan Anda</h2>
-                    <p style="opacity: 0.9; font-size: 0.95rem;">Bergabung dengan ribuan pasien lainnya dalam memantau akses dialisis.</p>
+                    <p style="opacity: 0.9; font-size: 0.95rem;">Bergabung dengan 14.206 subscriber lainnya.</p>
                 </div>
             </div>
         </div>
@@ -900,13 +706,9 @@
                 </div>
 
                 <div class="user-menu">
-                    <span id="guestIndicator" class="guest-badge" style="display: none;">
-                        Mode Tamu
-                    </span>
+                    <span id="guestIndicator" class="guest-badge" style="display: none;">Mode Tamu</span>
                     <div class="user-avatar" id="userAvatar">T</div>
-                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="logout()">
-                        Keluar
-                    </button>
+                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="logout()">Keluar</button>
                 </div>
             </div>
         </nav>
@@ -925,7 +727,7 @@
                     </p>
                 </div>
 
-                <!-- Real Stats -->
+                <!-- Real Stats (Sesuai Permintaan) -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-value stat-highlight" id="statSubscribers">0</div>
@@ -940,7 +742,8 @@
                         <div class="stat-label">Risiko Sedang</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value stat-success" id="statSatisfaction">0%</div>
+                        <!-- ID diubah untuk logika kosong/isi -->
+                        <div class="stat-value stat-empty" id="statSatisfaction">-</div>
                         <div class="stat-label">Tingkat Kepuasan</div>
                     </div>
                 </div>
@@ -1001,26 +804,14 @@
             <aside class="sidebar">
                 <div class="comment-section">
                     <div class="comment-header">
-                        <h3 class="comment-title">
-                            Diskusi Pengguna
-                            <span class="comment-count" id="commentCount">0</span>
-                        </h3>
+                        <h3 class="comment-title">Diskusi Pengguna <span class="comment-count" id="commentCount">0</span></h3>
                     </div>
-
-                    <!-- Guest Notice / Login Input -->
-                    <div id="commentAccessArea">
-                        <!-- Content injected by JS based on login status -->
-                    </div>
-
-                    <!-- Comment List -->
-                    <div class="comment-list" id="commentList">
-                        <!-- Comments injected by JS -->
-                    </div>
+                    <div id="commentAccessArea"></div>
+                    <div class="comment-list" id="commentList"></div>
                 </div>
             </aside>
         </div>
 
-        <!-- Footer -->
         <footer class="footer">
             <p>©2026 SIAP-TEMAN. Teman Aman untuk Akses Dialisis Anda.</p>
         </footer>
@@ -1031,12 +822,16 @@
         let currentUser = null;
         let isGuest = false;
         
-        // Real-ish data simulation
+        // Data Sesuai Permintaan:
+        // Total Subscriber Aktif: 14.206
+        // Pasien Terdaftar: 127
+        // Risiko Sedang: 97
+        // Tingkat Kepuasan: 0 (akan terisi jika ada subscriber login)
         const appData = {
-            totalSubscribers: 8743,
-            totalPatients: 14206,
-            moderateRisk: 127,
-            satisfaction: 97,
+            totalSubscribers: 14206,
+            totalPatients: 127,
+            moderateRisk: 97,
+            satisfaction: 0, 
             comments: [
                 { id: 1, user: 'Dewi Sartika', initial: 'DS', text: 'Terima kasih SIAP-TEMAN, saya bisa memantau kondisi fistula saya dengan lebih baik.', time: '10 menit lalu' },
                 { id: 2, user: 'Budi Santoso', initial: 'BS', text: 'Fitur edukasinya sangat membantu untuk memahami diet yang tepat.', time: '25 menit lalu' },
@@ -1047,11 +842,10 @@
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
-            checkInitialSession(); // Check if user was "logged in" (simulation)
+            checkInitialSession();
         });
 
         function checkInitialSession() {
-            // For demo: Start at login
             showPage('loginPage');
         }
 
@@ -1072,6 +866,12 @@
         }
 
         // --- AUTH FUNCTIONS ---
+        
+        // Fungsi baru untuk tombol daftar
+        function showRegisterAlert() {
+            alert('Fitur pendaftaran akan segera tersedia. Silakan gunakan login atau mode tamu untuk saat ini.');
+        }
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const email = document.getElementById('emailInput').value;
@@ -1083,9 +883,12 @@
             };
             isGuest = false;
             
-            // Simulate adding to subscriber count
-            appData.totalSubscribers++;
-            
+            // LOGIKA: Jika ada subscriber yang login, satisfaction terisi (simulasi)
+            // Anggap satisfaction 97% dari feedback subscriber yang ada
+            if (appData.satisfaction === 0) {
+                appData.satisfaction = 97; 
+            }
+
             updateUserUI();
             showPage('mainPage');
         });
@@ -1133,9 +936,20 @@
 
         function animateStats() {
             animateValue('statSubscribers', 0, appData.totalSubscribers, 2000);
-            animateValue('statPatients', 0, appData.totalPatients, 2500);
+            animateValue('statPatients', 0, appData.totalPatients, 1500);
             animateValue('statModerate', 0, appData.moderateRisk, 1500);
-            animateValue('statSatisfaction', 0, appData.satisfaction, 1500, '%');
+            
+            // Logika untuk Satisfaction (Kosong/Terisi)
+            const satElement = document.getElementById('statSatisfaction');
+            if (appData.satisfaction > 0) {
+                // Jika sudah ada subscriber login, tampilkan angka
+                satElement.classList.remove('stat-empty');
+                satElement.classList.add('stat-success');
+                animateValue('statSatisfaction', 0, appData.satisfaction, 1500, '%');
+            } else {
+                // Jika belum ada subscriber login (data 0), tampilkan strip
+                satElement.textContent = '-';
+            }
         }
 
         function animateValue(id, start, end, duration, suffix = '') {
@@ -1189,14 +1003,9 @@
             const countEl = document.getElementById('commentCount');
             
             if (!list) return;
-
-            // Update count
             if (countEl) countEl.textContent = appData.comments.length;
-
-            // Clear list
             list.innerHTML = '';
 
-            // Render items
             appData.comments.forEach(comment => {
                 const item = document.createElement('div');
                 item.className = 'comment-item';
@@ -1222,7 +1031,6 @@
                 return;
             }
 
-            // Create new comment object
             const newComment = {
                 id: Date.now(),
                 user: currentUser.name,
@@ -1231,13 +1039,8 @@
                 time: 'Baru saja'
             };
 
-            // Add to data array (at the beginning)
             appData.comments.unshift(newComment);
-
-            // Clear textarea
             textArea.value = '';
-
-            // Re-render comments
             renderComments();
         }
 
