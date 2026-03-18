@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIAP-TEMAN - Sistem Informasi Akses Dialisis</title>
+    <title>SIAP-TEMAN - Teman Aman Untuk Akses Dialisis Anda</title>
     
     <!-- Library untuk PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -15,16 +15,13 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        'sans': ['Plus Jakarta Sans', 'sans-serif'],
-                        'display': ['Space Grotesk', 'sans-serif'],
-                        'caveat': ['Caveat', 'cursive'],
+                        'sans': ['Arial', 'sans-serif'],
                     }
                 }
             }
@@ -47,9 +44,8 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* Font Default: Plus Jakarta Sans */
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: Arial, sans-serif;
             background: var(--bg);
             color: var(--fg);
             min-height: 100vh;
@@ -57,9 +53,8 @@
             font-size: 16px;
         }
         
-        /* Font Khusus Title/Heading */
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: Arial, sans-serif;
             font-weight: 700;
         }
 
@@ -82,7 +77,7 @@
         .page.active { display: block; opacity: 1; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Layout Login: Animasi Kiri, Form Kanan */
+        /* Layout Login */
         .login-container { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
         @media (max-width: 900px) { 
             .login-container { grid-template-columns: 1fr; }
@@ -100,10 +95,10 @@
         /* Components */
         .form-group { margin-bottom: 1.5rem; }
         .form-label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--fg); font-size: 0.9rem; }
-        .form-input { width: 100%; padding: 0.75rem 1rem; border: 2px solid var(--border); border-radius: 12px; font-size: 0.95rem; font-family: inherit; transition: all 0.3s ease; background: white; }
+        .form-input { width: 100%; padding: 0.75rem 1rem; border: 2px solid var(--border); border-radius: 12px; font-size: 0.95rem; font-family: Arial, sans-serif; transition: all 0.3s ease; background: white; }
         .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15); }
         
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.3s ease; border: none; font-family: inherit; text-decoration: none; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.3s ease; border: none; font-family: Arial, sans-serif; text-decoration: none; }
         .btn-primary { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: white; box-shadow: 0 4px 15px rgba(0, 180, 216, 0.35); }
         .btn-primary:hover { transform: translateY(-2px); }
         .btn-secondary { background: transparent; color: var(--accent-dark); border: 2px solid var(--accent); }
@@ -119,7 +114,7 @@
         .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; cursor: pointer; }
         .logo img { height: 40px; width: auto; border-radius: 8px; }
-        .logo-text { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--fg); }
+        .logo-text { font-family: Arial, sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--fg); }
         .nav-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .nav-link { font-weight: 600; color: var(--muted); text-decoration: none; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.3s; cursor: pointer; font-size: 0.95rem; }
         .nav-link:hover, .nav-link.active { color: var(--accent-dark); background: rgba(0, 180, 216, 0.1); }
@@ -146,7 +141,6 @@
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('banner-saya.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -158,6 +152,45 @@
         /* Cards */
         .card { background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 1.5rem; transition: transform 0.3s ease; }
         .card:hover { transform: translateY(-2px); }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            padding: 1.5rem;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .stat-card h3 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .stat-card p { font-size: 0.85rem; opacity: 0.9; }
+        .stat-blue { background: linear-gradient(135deg, #36d1dc, #5b86e5); }
+        .stat-green { background: linear-gradient(135deg, #00b09b, #96c93d); }
+        .stat-yellow { background: linear-gradient(135deg, #f7971e, #ffd200); }
+
+        /* Feature Card */
+        .feature-card {
+            border-radius: 20px;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover { transform: translateY(-3px); }
+
+        /* Chart Container */
+        .chart-container {
+            max-width: 350px;
+            margin: 0 auto;
+        }
 
         /* Edukasi Card Background */
         .edu-card {
@@ -201,27 +234,24 @@
         .data-table th { background: #f8fbfc; font-weight: 700; color: var(--fg); }
         .data-table tr:hover { background: #f0f7fa; }
 
-        /* Decorative Images - SELALU MUNCUL */
+        /* Decorative Images */
         .deco-img {
             position: fixed;
             bottom: 0;
             z-index: 50;
-            width: 300px;
+            width: 280px;
             pointer-events: none;
             opacity: 0.9;
-            transform: translateY(0);
             transition: opacity 0.5s ease;
         }
         .deco-left { left: 0; }
         .deco-right { right: 0; }
 
-        /* Responsif Mobile untuk Dekorasi dan Kartu */
+        /* Responsif Mobile */
         @media (max-width: 768px) {
             .deco-img { display: none; }
-            .card {
+            .card, .feature-card {
                 width: 100%;
-                max-width: 300px;
-                min-width: 200px;
                 margin: 0 auto 1.5rem auto;
                 padding: 1rem;
             }
@@ -233,6 +263,7 @@
             .login-illustration { height: 35vh; }
             .login-image-container img { max-width: 180px; }
             .beranda-layout { gap: 1rem; }
+            .dashboard-cards { grid-template-columns: 1fr; }
         }
 
         /* Result Box Screening */
@@ -248,6 +279,10 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+        /* Welcome Text Style */
+        .welcome-title { font-size: 2rem; margin-bottom: 0.5rem; font-weight: 700; }
+        .welcome-subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1.2rem; }
     </style>
 </head>
 <body>
@@ -256,17 +291,17 @@
         <div class="floating-shape shape-2"></div>
     </div>
 
-    <!-- Dekorasi Karakter (Selalu Muncul) -->
-    <img src="Pipit.png" class="deco-img deco-left" alt="Pipit">
-    <img src="bung-bung.png" class="deco-img deco-right" alt="Bung-bung">
+    <!-- Dekorasi Karakter -->
+    <img src="Pipit.png" class="deco-img deco-left" alt="Pipit" onerror="this.style.display='none'">
+    <img src="bung-bung.png" class="deco-img deco-right" alt="Bung-bung" onerror="this.style.display='none'">
 
-    <!-- LOGIN PAGE (Layout: Animasi Kiri, Form Kanan) -->
+    <!-- LOGIN PAGE -->
     <div id="loginPage" class="page active">
         <div class="login-container">
-            <!-- 1. Ilustrasi/Animasi (Kiri) -->
+            <!-- Ilustrasi (Kiri) -->
             <div class="login-illustration">
                 <div class="login-image-container">
-                    <img src="login.gif" alt="Login Illustration">
+                    <img src="login.gif" alt="Login Illustration" onerror="this.src='https://via.placeholder.com/280x200?text=SIAP-TEMAN'">
                 </div>
                 <div style="z-index: 2;">
                     <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Pantau Kesehatan Anda</h2>
@@ -274,16 +309,15 @@
                 </div>
             </div>
 
-            <!-- 2. Form Login (Kanan) -->
+            <!-- Form Login (Kanan) -->
             <div class="login-form-section">
                 <div style="width: 100%; max-width: 380px;">
                     <div class="logo" style="margin-bottom: 2rem;">
-                        <img src="logo.png" alt="Logo SIAP-TEMAN">
+                        <img src="logo.png" alt="Logo SIAP-TEMAN" onerror="this.src='https://via.placeholder.com/40x40?text=ST'">
                         <span class="logo-text">SIAP-TEMAN</span>
                     </div>
-                    <!-- Hanya tulisan ini yang memakai Caveat -->
-                    <h1 class="font-caveat" style="font-size: 2.8rem; margin-bottom: 0.5rem; line-height: 1.1;">Selamat Datang</h1>
-                    <p class="font-caveat" style="color: var(--muted); margin-bottom: 2rem; font-size: 1.5rem;">Masuk untuk mengaktifkan fitur monitoring.</p>
+                    <h1 style="font-size: 2rem; margin-bottom: 0.5rem; line-height: 1.1;">Selamat Datang</h1>
+                    <p style="color: var(--muted); margin-bottom: 2rem; font-size: 1rem;">Masuk untuk mengaktifkan fitur monitoring.</p>
 
                     <form id="loginForm">
                         <div class="form-group">
@@ -312,7 +346,7 @@
         <nav class="navbar">
             <div class="navbar-content">
                 <div class="logo" onclick="navigateTo('beranda')">
-                    <img src="logo.png" alt="Logo SIAP-TEMAN">
+                    <img src="logo.png" alt="Logo SIAP-TEMAN" onerror="this.src='https://via.placeholder.com/40x40?text=ST'">
                     <span class="logo-text">SIAP-TEMAN</span>
                 </div>
                 <div class="nav-links">
@@ -336,42 +370,34 @@
             <div id="page-beranda" class="page active">
                 <div class="beranda-layout">
                     <div class="main-content">
-                        <h1 class="font-caveat" style="font-size: 2.8rem; margin-bottom: 0.5rem;">Selamat Datang, <span id="userNameDisp">User</span></h1>
-                        <p class="font-caveat" style="color: var(--muted); margin-bottom: 2rem; font-size: 1.5rem;">Ringkasan data dan akses cepat layanan.</p>
-<div class="feature-card">
-  <h3 style="margin-bottom:1rem;">Statistik Risiko Pasien</h3>
-  <div class="chart-container">
-    <canvas id="riskChart"></canvas>
-  </div>
-</div>
+                        <h1 class="welcome-title">Selamat Datang, <span id="userNameDisp">User</span></h1>
+                        <p class="welcome-subtitle">Ringkasan data dan akses cepat layanan.</p>
+
+                        <!-- Statistik Cards -->
                         <div class="dashboard-cards">
-  <div class="stat-card stat-blue">
-    <h3 id="stat-subscriber">0</h3>
-    <p>Total Subscriber</p>
-  </div>
-  <div class="stat-card stat-green">
-    <h3 id="stat-pasien">0</h3>
-    <p>Pasien</p>
-  </div>
-  <div class="stat-card stat-yellow">
-    <h3 id="stat-risk">0</h3>
-    <p>Risiko Sedang</p>
-  </div>
-</div>
-                            <div class="feature-card" style="text-align: center;">
-                                <h3 style="font-size: 2rem; color: var(--accent-dark);" id="stat-subscriber">0</h3>
-                                <p style="font-size: 0.85rem; color: var(--muted);">Total Subscriber</p>
+                            <div class="stat-card stat-blue">
+                                <h3 id="stat-subscriber">0</h3>
+                                <p>Total Subscriber</p>
                             </div>
-                            <div class="feature-card" style="text-align: center;">
-                                <h3 style="font-size: 2rem; color: var(--fg);" id="stat-pasien">0</h3>
-                                <p style="font-size: 0.85rem; color: var(--muted);">Pasien Terdaftar</p>
+                            <div class="stat-card stat-green">
+                                <h3 id="stat-pasien">0</h3>
+                                <p>Pasien</p>
                             </div>
-                            <div class="feature-card" style="text-align: center;">
-                                <h3 style="font-size: 2rem; color: var(--warning);" id="stat-risk">0</h3>
-                                <p style="font-size: 0.85rem; color: var(--muted);">Risiko Sedang</p>
+                            <div class="stat-card stat-yellow">
+                                <h3 id="stat-risk">0</h3>
+                                <p>Risiko Sedang</p>
                             </div>
                         </div>
 
+                        <!-- Chart Card -->
+                        <div class="feature-card">
+                            <h3 style="margin-bottom:1rem;">Statistik Risiko Pasien</h3>
+                            <div class="chart-container">
+                                <canvas id="riskChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
                             <div class="feature-card">
                                 <h3 style="margin-bottom: 1rem;">Monitoring Akses</h3>
@@ -445,7 +471,7 @@
                             <button class="btn btn-primary btn-sm" onclick="alert('Membuka materi...')">Baca Selengkapnya</button>
                         </div>
                     </div>
-                    <div class="edu-card" style="background-image: url('banner-saya.png');">
+                    <div class="edu-card" style="background: linear-gradient(135deg, #0077b6, #00b4d8);">
                         <div class="edu-overlay"></div>
                         <div class="edu-content">
                             <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Diet Hemodialisis</h3>
@@ -554,7 +580,7 @@
                             </div>
                             <h3 style="font-size: 1.2rem;">YouTube Live</h3>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Siararan langsung edukasi kesehatan ginjal.</p>
+                        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Siaran langsung edukasi kesehatan ginjal.</p>
                         <button class="btn btn-sm" style="background: #FF0000; color: white;" onclick="window.open('https://youtube.com', '_blank')">Tonton Video</button>
                     </div>
                 </div>
@@ -606,7 +632,6 @@
 
     <script>
         // --- CONFIGURATION ---
-        // URL Apps Script Anda
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmXGALrxLV-4U94I6bgQ9sV1cGE0Ifca3ltAAjT7a1go0C2i2QFPESJG7F38G0zeWdOQ/exec";
         const DB_KEY = "siapteman_db";
         
@@ -616,6 +641,7 @@
         let monitoringData = [];
         let commentsData = [];
         let lastScreeningResult = {};
+        let chartInstance = null;
 
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -629,14 +655,15 @@
             document.getElementById('page-' + page).classList.add('active');
             
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            document.getElementById('nav-' + page).classList.add('active');
+            const navLink = document.getElementById('nav-' + page);
+            if (navLink) navLink.classList.add('active');
 
             if(page === 'monitoring') renderMonitoringTable();
-           if(page === 'beranda') {
-    updateStats();
-    renderChart(); // tambah ini
-    syncComments(false);
-}
+            if(page === 'beranda') {
+                updateStats();
+                renderChart();
+                syncComments(false);
+            }
         }
 
         // --- AUTH ---
@@ -695,7 +722,7 @@
         }
         function openAddMonitoringModal() { 
             document.getElementById('editIndex').value = -1;
-            document.getElementById('mon_name').value = currentUser.name;
+            document.getElementById('mon_name').value = currentUser ? currentUser.name : '';
             document.getElementById('mon_date').value = new Date().toISOString().split('T')[0];
             document.getElementById('mon_type').value = 'AV Shunt';
             document.getElementById('mon_notes').value = '';
@@ -710,37 +737,89 @@
             const data = localStorage.getItem(DB_KEY);
             monitoringData = data ? JSON.parse(data) : [];
         }
+        
         function saveData() {
             localStorage.setItem(DB_KEY, JSON.stringify(monitoringData));
         }
+        
         function getStats() {
             const s = localStorage.getItem('stats');
             return s ? JSON.parse(s) : { subscribers: 0, pasien: 0, risk: 0 };
         }
+        
         function updateStats() {
             const stats = getStats();
             animateNumber('stat-subscriber', stats.subscribers);
             animateNumber('stat-pasien', stats.pasien);
             animateNumber('stat-risk', stats.risk);
         }
+        
         function animateNumber(id, target) {
             const el = document.getElementById(id);
             if(!el) return;
-            let current = parseInt(el.innerText);
+            let current = parseInt(el.innerText) || 0;
             const increment = (target - current) / 20;
             if(increment === 0) return;
             const timer = setInterval(() => {
                 current += increment;
-                if ((increment > 0 && current >= target) || (increment < 0 && current <= target)) { current = target; clearInterval(timer); }
+                if ((increment > 0 && current >= target) || (increment < 0 && current <= target)) { 
+                    current = target; 
+                    clearInterval(timer); 
+                }
                 el.innerText = Math.floor(current);
             }, 50);
         }
 
-        // --- COMMENT SECTION LOGIC (CLOUD BASED) ---
+        // --- CHART RENDERING ---
+        function renderChart() {
+            const stats = getStats();
+            const ctx = document.getElementById('riskChart');
+            if(!ctx) return;
+
+            // Destroy existing chart
+            if(chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Low Risk', 'Medium Risk', 'High Risk'],
+                    datasets: [{
+                        data: [
+                            Math.max(0, stats.pasien - stats.risk),
+                            stats.risk,
+                            5
+                        ],
+                        backgroundColor: [
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                font: { family: 'Arial', size: 12 }
+                            }
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+        }
+
+        // --- COMMENT SECTION LOGIC ---
         function setupCommentAccess() {
             const area = document.getElementById('commentAccessArea');
             if (isGuest) {
-                area.innerHTML = `<div class="guest-notice"><p>Anda masuk sebagai Tamu. <br><strong>Login/Subscribe</strong> untuk berpartisipasi.</p></div>`;
+                area.innerHTML = '<div class="guest-notice"><p>Anda masuk sebagai Tamu. <br><strong>Login/Subscribe</strong> untuk berpartisipasi.</p></div>';
             } else {
                 area.innerHTML = `
                     <div style="margin-bottom: 1rem;">
@@ -766,10 +845,10 @@
                     <div class="comment-item">
                         <div class="comment-item-header">
                             <div class="comment-avatar">${c.initial || 'U'}</div>
-                            <span class="comment-author">${c.user}</span>
-                            <span class="comment-time">${c.time}</span>
+                            <span style="font-weight:600;">${c.user}</span>
+                            <span style="color:var(--muted); font-size:0.75rem; margin-left:auto;">${c.time}</span>
                         </div>
-                        <div style="font-size: 0.9rem; color: var(--fg);">${c.text}</div>
+                        <div style="font-size: 0.9rem; color: var(--fg); margin-top:0.25rem;">${c.text}</div>
                     </div>
                 `;
             });
@@ -819,11 +898,11 @@
             })
             .then(() => {
                 document.getElementById('newCommentText').value = '';
-                alert("Komentar berhasil dikirim ke cloud!");
+                alert("Komentar berhasil dikirim!");
                 syncComments(false);
             })
             .catch(err => {
-                alert("Gagal mengirim komentar ke cloud.");
+                alert("Komentar disimpan lokal. Gagal kirim ke cloud.");
             });
         }
 
@@ -845,8 +924,8 @@
                         <td>${item.notes}</td>
                         <td style="color:${statusColor}; font-weight:bold;">${item.status}</td>
                         <td>
-                            <button class="btn btn-sm btn-danger" onclick="deleteData(${index})">Hapus</button>
                             <button class="btn btn-sm btn-secondary" onclick="editData(${index})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteData(${index})">Hapus</button>
                         </td>
                     </tr>
                 `;
@@ -856,12 +935,17 @@
         function saveMonitoringData(e) {
             e.preventDefault();
             const index = parseInt(document.getElementById('editIndex').value);
+            const notesVal = document.getElementById('mon_notes').value;
+            let statusVal = 'High Risk';
+            if(notesVal.toLowerCase().includes('low')) statusVal = 'Low Risk';
+            else if(notesVal.toLowerCase().includes('medium')) statusVal = 'Medium Risk';
+
             const newItem = {
                 date: document.getElementById('mon_date').value,
                 name: document.getElementById('mon_name').value,
                 type: document.getElementById('mon_type').value,
-                notes: document.getElementById('mon_notes').value,
-                status: document.getElementById('mon_notes').value.includes('Low') ? 'Low Risk' : document.getElementById('mon_notes').value.includes('Medium') ? 'Medium Risk' : 'High Risk',
+                notes: notesVal,
+                status: statusVal,
                 type: 'monitoring'
             };
 
@@ -944,21 +1028,23 @@
                 status = "LOW RISK"; color = "var(--success)"; bg = "rgba(16, 185, 129, 0.1)";
             } else if(total <= 5){
                 status = "MEDIUM RISK"; color = "var(--warning)"; bg = "rgba(245, 158, 11, 0.1)";
-                let stats = getStats(); stats.risk++; localStorage.setItem('stats', JSON.stringify(stats));
+                let stats = getStats(); 
+                stats.risk++; 
+                localStorage.setItem('stats', JSON.stringify(stats));
             } else {
                 status = "HIGH RISK"; color = "var(--danger)"; bg = "rgba(239, 68, 68, 0.1)";
             }
 
             hasilDiv.style.background = bg;
             hasilDiv.style.color = color;
-            hasilDiv.style.border = `1px solid ${color}`;
-            hasilDiv.innerHTML = `<h2 style='font-size: 1.5rem;'>${status}</h2><p style='font-size: 1rem;'>Skor Total: ${total}</p>`;
+            hasilDiv.style.border = "2px solid " + color;
+            hasilDiv.innerHTML = "<h2 style='font-size: 1.5rem; margin-bottom:0.5rem;'>" + status + "</h2><p style='font-size: 1rem;'>Skor Total: " + total + "</p>";
 
             lastScreeningResult = {
                 date: new Date().toISOString().split('T')[0],
-                name: currentUser.name,
+                name: currentUser ? currentUser.name : 'User',
                 type: document.getElementById('sc_jenis').value,
-                notes: `Skor ${total}`,
+                notes: "Skor " + total,
                 status: status
             };
         }
@@ -975,81 +1061,10 @@
         }
 
         function sendWa(number, name) {
-            const msg = `Halo ${name}, saya ${currentUser.name}. Hasil screening saya: ${lastScreeningResult.status} (${lastScreeningResult.notes}). Mohon arahan selanjutnya.`;
-            const url = `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+            const msg = "Halo " + name + ", saya " + (currentUser ? currentUser.name : 'User') + ". Hasil screening saya: " + lastScreeningResult.status + " (" + lastScreeningResult.notes + "). Mohon arahan selanjutnya.";
+            const url = "https://wa.me/" + number + "?text=" + encodeURIComponent(msg);
             window.open(url, '_blank');
         }
-
-        /* ===== CARD MODERN DASHBOARD ===== */
-.dashboard-cards {
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-  gap:1rem;
-  margin-bottom:2rem;
-}
-
-.stat-card {
-  padding:1.5rem;
-  border-radius:20px;
-  color:white;
-  text-align:center;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
-}
-
-.stat-blue { background:linear-gradient(135deg,#36d1dc,#5b86e5); }
-.stat-green { background:linear-gradient(135deg,#00b09b,#96c93d); }
-.stat-yellow { background:linear-gradient(135deg,#f7971e,#ffd200); }
-
-/* ===== FEATURE CARD ===== */
-.feature-card {
-  border-radius:20px;
-  padding:1.5rem;
-  background:rgba(255,255,255,0.9);
-  backdrop-filter:blur(10px);
-  box-shadow:0 10px 30px rgba(0,0,0,0.05);
-  transition:0.3s;
-}
-
-.feature-card:hover {
-  transform:translateY(-5px);
-}
-
-/* ===== CHART ===== */
-.chart-container {
-  max-width:400px;
-  margin:auto;
-}
-
-    function renderChart(){
-  const stats = getStats();
-
-  const ctx = document.getElementById('riskChart');
-  if(!ctx) return;
-
-  new Chart(ctx, {
-    type:'doughnut',
-    data:{
-      labels:['Low Risk','Medium Risk','High Risk'],
-      datasets:[{
-        data:[
-          stats.pasien - stats.risk, // asumsi low
-          stats.risk,
-          5 // dummy high (bisa kamu kembangkan nanti)
-        ],
-        backgroundColor:[
-          '#10b981',
-          '#f59e0b',
-          '#ef4444'
-        ]
-      }]
-    },
-    options:{
-      plugins:{
-        legend:{ position:'bottom' }
-      }
-    }
-  });
-}
     </script>
 </body>
 </html>
