@@ -8,11 +8,28 @@
     <!-- Library untuk PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
-    <!-- Tailwind & Fonts -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Caveat untuk Ucapan Selamat Datang saja, lainnya Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Plus Jakarta Sans', 'sans-serif'],
+                        'display': ['Space Grotesk', 'sans-serif'],
+                        'caveat': ['Caveat', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
         :root {
@@ -29,14 +46,22 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Font Default: Plus Jakarta Sans */
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg);
             color: var(--fg);
             min-height: 100vh;
             overflow-x: hidden;
+            font-size: 16px; /* Ukuran standar */
         }
-        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+        
+        /* Font Khusus Title/Heading */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
 
         /* Background Animation */
         .bg-pattern {
@@ -57,9 +82,14 @@
         .page.active { display: block; opacity: 1; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Layout */
+        /* Layout Login: Animasi Kiri, Form Kanan */
         .login-container { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-        @media (max-width: 900px) { .login-container { grid-template-columns: 1fr; } .login-illustration { display: none; } }
+        @media (max-width: 900px) { 
+            .login-container { grid-template-columns: 1fr; }
+            /* Ubah urangan visual di mobile */
+            .login-illustration { order: -1; height: 40vh; }
+        }
+        
         .login-form-section { display: flex; align-items: center; justify-content: center; padding: 2rem; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); }
         .login-illustration { background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 2rem; text-align: center; position: relative; overflow: hidden; }
         
@@ -70,11 +100,11 @@
 
         /* Components */
         .form-group { margin-bottom: 1.5rem; }
-        .form-label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--fg); font-size: 0.875rem; }
-        .form-input { width: 100%; padding: 0.875rem 1rem; border: 2px solid var(--border); border-radius: 12px; font-size: 1rem; font-family: inherit; transition: all 0.3s ease; background: white; }
+        .form-label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--fg); font-size: 0.9rem; }
+        .form-input { width: 100%; padding: 0.75rem 1rem; border: 2px solid var(--border); border-radius: 12px; font-size: 0.95rem; font-family: inherit; transition: all 0.3s ease; background: white; }
         .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15); }
         
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.875rem 1.5rem; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.3s ease; border: none; font-family: inherit; text-decoration: none; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.3s ease; border: none; font-family: inherit; text-decoration: none; }
         .btn-primary { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: white; box-shadow: 0 4px 15px rgba(0, 180, 216, 0.35); }
         .btn-primary:hover { transform: translateY(-2px); }
         .btn-secondary { background: transparent; color: var(--accent-dark); border: 2px solid var(--accent); }
@@ -83,45 +113,54 @@
         .btn-success { background: var(--success); color: white; }
         .btn-whatsapp { background: #25D366; color: white; }
         .btn-full { width: 100%; }
-        .btn-sm { padding: 0.5rem 1rem; font-size: 0.8rem; }
+        .btn-sm { padding: 0.5rem 1rem; font-size: 0.85rem; }
 
         /* Navbar */
         .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
         .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; cursor: pointer; }
-        /* Logo Image Styling */
-        .logo img {
-            height: 40px;
-            width: auto;
-            border-radius: 8px;
-        }
+        .logo img { height: 40px; width: auto; border-radius: 8px; }
         .logo-text { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--fg); }
-        .nav-links { display: flex; gap: 0.5rem; }
-        .nav-link { font-weight: 600; color: var(--muted); text-decoration: none; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.3s; cursor: pointer; }
+        .nav-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .nav-link { font-weight: 600; color: var(--muted); text-decoration: none; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.3s; cursor: pointer; font-size: 0.95rem; }
         .nav-link:hover, .nav-link.active { color: var(--accent-dark); background: rgba(0, 180, 216, 0.1); }
         
         /* Main Content Area */
-        .content-area { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+        .content-area { padding: 2rem; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
 
-        /* Layout Khusus Halaman Beranda (2 Kolom) */
+        /* Layout Beranda */
         .beranda-layout {
             display: grid;
-            grid-template-columns: 1fr 350px; /* Konten utama + Sidebar */
+            grid-template-columns: 1fr 350px;
             gap: 2rem;
             align-items: flex-start;
         }
-        /* Responsif Beranda: Stack pada HP */
         @media (max-width: 1024px) {
-            .beranda-layout {
-                grid-template-columns: 1fr;
-            }
+            .beranda-layout { grid-template-columns: 1fr; }
+        }
+
+        /* Background Khusus Beranda */
+        #page-beranda {
+            position: relative;
+        }
+        #page-beranda::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('banner-saya.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.15; 
+            z-index: -1;
+            border-radius: 20px;
         }
 
         /* Cards */
         .card { background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 1.5rem; transition: transform 0.3s ease; }
         .card:hover { transform: translateY(-2px); }
 
-        /* Edukasi Card Custom Background */
+        /* Edukasi Card Background */
         .edu-card {
             position: relative;
             height: 300px;
@@ -147,42 +186,72 @@
             padding: 1.5rem;
         }
 
-        /* Table for Monitoring */
+        /* Acara Card */
+        .acara-card {
+            background: white;
+            border-left: 5px solid var(--accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* Table */
         .data-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         .data-table th, .data-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         .data-table th { background: #f8fbfc; font-weight: 700; color: var(--fg); }
         .data-table tr:hover { background: #f0f7fa; }
 
-        /* Decorative Images */
+        /* Decorative Images - SELALU MUNCUL */
         .deco-img {
             position: fixed;
             bottom: 0;
             z-index: 50;
             width: 300px;
             pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            transform: translateY(100%);
+            opacity: 0.9; /* Langsung terlihat */
+            transform: translateY(0); /* Langsung di posisi */
+            transition: opacity 0.5s ease;
         }
         .deco-left { left: 0; }
         .deco-right { right: 0; }
 
-        body.show-decor .deco-img {
-            opacity: 0.9;
-            transform: translateY(0);
-        }
+        /* Responsif Mobile untuk Dekorasi dan Kartu */
         @media (max-width: 768px) {
-            .deco-img { display: none; }
+            .deco-img { display: none; } /* Sembunyikan di mobile agar tidak menghalangi */
+            
+            /* Ukuran Kartu Mobile 200-300px */
+            .card {
+                width: 100%;
+                max-width: 300px; /* Maksimal 300px */
+                min-width: 200px; /* Minimal 200px */
+                margin: 0 auto 1.5rem auto; /* Center */
+                padding: 1rem;
+            }
+            
+            /* Font Size Mobile (Kurangi 2px untuk konten) */
+            body { font-size: 14px; }
+            p, span, li, a { font-size: 0.9rem; } /* Dari 16px -> 14px (relatif di body) */
+            
+            .form-input { font-size: 0.9rem; padding: 0.65rem 0.8rem; }
+            .btn { font-size: 0.85rem; padding: 0.65rem 1rem; }
+            
+            /* Penyesuaian Khusus Login Mobile */
+            .login-illustration { height: 35vh; }
+            .login-image-container img { max-width: 180px; }
+            
+            /* Penyesuaian Grid Beranda Mobile */
+            .beranda-layout { gap: 1rem; }
         }
 
         /* Result Box Screening */
         .result-box { padding: 1.5rem; border-radius: 12px; text-align: center; margin-top: 1.5rem; display: none; }
         
         /* Comment Section Styles */
-        .comment-item { padding: 1rem; border-radius: 12px; background: #f8fbfc; margin-bottom: 0.75rem; animation: fadeIn 0.4s ease; }
+        .comment-item { padding: 1rem; border-radius: 12px; background: #f8fbfc; margin-bottom: 0.75rem; }
         .comment-item-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
         .comment-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 600; }
-        .guest-notice { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 1rem; text-align: center; margin-bottom: 1rem; color: var(--warning); font-size: 0.85rem; }
+        .guest-notice { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 1rem; text-align: center; margin-bottom: 1rem; color: var(--warning); }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
@@ -196,21 +265,34 @@
         <div class="floating-shape shape-2"></div>
     </div>
 
-    <!-- Dekorasi Karakter -->
+    <!-- Dekorasi Karakter (Selalu Muncul) -->
     <img src="Pipit.png" class="deco-img deco-left" alt="Pipit">
     <img src="bung-bung.png" class="deco-img deco-right" alt="Bung-bung">
 
-    <!-- LOGIN PAGE -->
+    <!-- LOGIN PAGE (Layout: Animasi Kiri, Form Kanan) -->
     <div id="loginPage" class="page active">
         <div class="login-container">
+            <!-- 1. Ilustrasi/Animasi (Kiri) -->
+            <div class="login-illustration">
+                <div class="login-image-container">
+                    <img src="login.gif" alt="Login Illustration">
+                </div>
+                <div style="z-index: 2;">
+                    <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Pantau Kesehatan Anda</h2>
+                    <p style="opacity: 0.9; font-size: 1.1rem;">Bergabunglah untuk memantau akses dialisis Anda.</p>
+                </div>
+            </div>
+
+            <!-- 2. Form Login (Kanan) -->
             <div class="login-form-section">
                 <div style="width: 100%; max-width: 380px;">
                     <div class="logo" style="margin-bottom: 2rem;">
                         <img src="logo.png" alt="Logo SIAP-TEMAN">
                         <span class="logo-text">SIAP-TEMAN</span>
                     </div>
-                    <h1 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Selamat Datang</h1>
-                    <p style="color: var(--muted); margin-bottom: 2rem;">Masuk untuk mengaktifkan fitur monitoring.</p>
+                    <!-- Hanya tulisan ini yang memakai Caveat -->
+                    <h1 class="font-caveat" style="font-size: 2.8rem; margin-bottom: 0.5rem; line-height: 1.1;">Selamat Datang</h1>
+                    <p class="font-caveat" style="color: var(--muted); margin-bottom: 2rem; font-size: 1.5rem;">Masuk untuk mengaktifkan fitur monitoring.</p>
 
                     <form id="loginForm">
                         <div class="form-group">
@@ -225,19 +307,9 @@
                         <button type="button" class="btn btn-outline btn-full" onclick="openSubscribeModal()">Subscribe / Daftar Baru</button>
                     </form>
 
-                    <div style="display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0;"><hr style="flex:1; border-color: var(--border);"><span style="color: var(--muted); font-size: 0.875rem;">atau</span><hr style="flex:1; border-color: var(--border);"></div>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0;"><hr style="flex:1; border-color: var(--border);"><span style="color: var(--muted); font-size: 0.9rem;">atau</span><hr style="flex:1; border-color: var(--border);"></div>
 
                     <button class="btn btn-secondary btn-full" onclick="enterAsGuest()">Masuk Mode Tamu</button>
-                </div>
-            </div>
-
-            <div class="login-illustration">
-                <div class="login-image-container">
-                    <img src="login.gif" alt="Login Illustration">
-                </div>
-                <div style="z-index: 2;">
-                    <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Pantau Kesehatan Anda</h2>
-                    <p style="opacity: 0.9; font-size: 0.95rem;">Bergabunglah untuk memantau akses dialisis Anda.</p>
                 </div>
             </div>
         </div>
@@ -249,7 +321,6 @@
         <nav class="navbar">
             <div class="navbar-content">
                 <div class="logo" onclick="navigateTo('beranda')">
-                    <!-- Logo di Header -->
                     <img src="logo.png" alt="Logo SIAP-TEMAN">
                     <span class="logo-text">SIAP-TEMAN</span>
                 </div>
@@ -258,6 +329,7 @@
                     <a class="nav-link" id="nav-monitoring" onclick="navigateTo('monitoring')">Monitoring</a>
                     <a class="nav-link" id="nav-edukasi" onclick="navigateTo('edukasi')">Edukasi</a>
                     <a class="nav-link" id="nav-screening" onclick="navigateTo('screening')">Screening</a>
+                    <a class="nav-link" id="nav-acara" onclick="navigateTo('acara')">Acara</a>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <span id="guestIndicator" class="btn btn-sm" style="background: var(--warning); color: white; display: none;">Mode Tamu</span>
@@ -273,21 +345,22 @@
             <div id="page-beranda" class="page active">
                 <div class="beranda-layout">
                     <div class="main-content">
-                        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Selamat Datang, <span id="userNameDisp">User</span></h1>
-                        <p style="color: var(--muted); margin-bottom: 2rem;">Ringkasan data dan akses cepat layanan.</p>
+                        <!-- Hanya bagian ini yang pakai Caveat -->
+                        <h1 class="font-caveat" style="font-size: 2.8rem; margin-bottom: 0.5rem;">Selamat Datang, <span id="userNameDisp">User</span></h1>
+                        <p class="font-caveat" style="color: var(--muted); margin-bottom: 2rem; font-size: 1.5rem;">Ringkasan data dan akses cepat layanan.</p>
 
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
                             <div class="card" style="text-align: center;">
-                                <h3 style="font-size: 1.8rem; color: var(--accent-dark);" id="stat-subscriber">0</h3>
-                                <p style="font-size: 0.75rem; color: var(--muted);">Total Subscriber</p>
+                                <h3 style="font-size: 2rem; color: var(--accent-dark);" id="stat-subscriber">0</h3>
+                                <p style="font-size: 0.85rem; color: var(--muted);">Total Subscriber</p>
                             </div>
                             <div class="card" style="text-align: center;">
-                                <h3 style="font-size: 1.8rem; color: var(--fg);" id="stat-pasien">0</h3>
-                                <p style="font-size: 0.75rem; color: var(--muted);">Pasien Terdaftar</p>
+                                <h3 style="font-size: 2rem; color: var(--fg);" id="stat-pasien">0</h3>
+                                <p style="font-size: 0.85rem; color: var(--muted);">Pasien Terdaftar</p>
                             </div>
                             <div class="card" style="text-align: center;">
-                                <h3 style="font-size: 1.8rem; color: var(--warning);" id="stat-risk">0</h3>
-                                <p style="font-size: 0.75rem; color: var(--muted);">Risiko Sedang</p>
+                                <h3 style="font-size: 2rem; color: var(--warning);" id="stat-risk">0</h3>
+                                <p style="font-size: 0.85rem; color: var(--muted);">Risiko Sedang</p>
                             </div>
                         </div>
 
@@ -305,15 +378,18 @@
                         </div>
                     </div>
 
-                    <!-- Sidebar Kanan (Komentar) -->
+                    <!-- Sidebar Komentar -->
                     <aside class="sidebar">
                         <div class="card" style="position: sticky; top: 100px;">
                             <h3 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
-                                Komentar <!-- Diubah dari Diskusi Pengguna -->
+                                Komentar
                                 <span style="background: var(--accent); color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;" id="commentCount">0</span>
                             </h3>
-                            
                             <div id="commentAccessArea"></div>
+                            <!-- Tombol Refresh untuk memuat komentar terbaru dari Cloud -->
+                            <div style="text-align:right; margin-bottom:0.5rem;">
+                                <button class="btn btn-sm btn-outline" style="font-size:0.75rem; padding:2px 8px;" onclick="syncComments(true)">Refresh Komentar</button>
+                            </div>
                             <div id="commentList" style="max-height: 400px; overflow-y: auto;"></div>
                         </div>
                     </aside>
@@ -323,7 +399,7 @@
             <!-- HALAMAN MONITORING -->
             <div id="page-monitoring" class="page">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
-                    <h1>Data Monitoring Pasien</h1>
+                    <h1 style="font-size: 1.5rem;">Data Monitoring Pasien</h1>
                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                         <button class="btn btn-primary btn-sm" onclick="openAddMonitoringModal()">+ Tambah Data</button>
                         <button class="btn btn-success btn-sm" onclick="syncToCloud()">Sync ke Cloud</button>
@@ -331,7 +407,7 @@
                     </div>
                 </div>
                 <div class="card" id="monitoringTableContainer">
-                    <p style="font-size: 0.9rem; color: var(--muted);">Data tersimpan di perangkat (Local Storage).</p>
+                    <p style="font-size: 0.85rem; color: var(--muted);">Data tersimpan di perangkat (Local Storage).</p>
                     <div style="overflow-x: auto;">
                         <table class="data-table">
                             <thead>
@@ -350,38 +426,24 @@
                 </div>
             </div>
 
-            <!-- HALAMAN EDUKASI (DENGAN BANNER BACKGROUND) -->
+            <!-- HALAMAN EDUKASI -->
             <div id="page-edukasi" class="page">
-                <h1 style="margin-bottom: 1.5rem;">Edukasi Pasien</h1>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                    
-                    <!-- Kartu Edukasi 1 -->
+                <h1 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Edukasi Pasien</h1>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
                     <div class="edu-card" style="background-image: url('banner-saya.png');">
                         <div class="edu-overlay"></div>
                         <div class="edu-content">
                             <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Perawatan Fistula</h3>
-                            <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Langkah-langkah merawat akses vaskular di rumah untuk mencegah infeksi.</p>
-                            <button class="btn btn-primary btn-sm" onclick="alert('Membuka materi Perawatan...')">Baca Selengkapnya</button>
+                            <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Langkah-langkah merawat akses vaskular.</p>
+                            <button class="btn btn-primary btn-sm" onclick="alert('Membuka materi...')">Baca Selengkapnya</button>
                         </div>
                     </div>
-
-                    <!-- Kartu Edukasi 2 -->
                     <div class="edu-card" style="background-image: url('banner-saya.png');">
                         <div class="edu-overlay"></div>
                         <div class="edu-content">
                             <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Diet Hemodialisis</h3>
-                            <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Panduan makanan yang boleh dan tidak boleh dikonsumsi pasien dialisis.</p>
-                            <button class="btn btn-primary btn-sm" onclick="alert('Membuka materi Diet...')">Baca Selengkapnya</button>
-                        </div>
-                    </div>
-
-                    <!-- Kartu Edukasi 3 -->
-                    <div class="edu-card" style="background-image: url('banner-saya.png');">
-                        <div class="edu-overlay"></div>
-                        <div class="edu-content">
-                            <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Cek Kesehatan Mandiri</h3>
-                            <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Panduan memeriksa tanda-tanda bahaya yang perlu diwaspadai.</p>
-                            <button class="btn btn-primary btn-sm" onclick="alert('Membuka materi Cek Kesehatan...')">Baca Selengkapnya</button>
+                            <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Panduan makanan untuk pasien dialisis.</p>
+                            <button class="btn btn-primary btn-sm" onclick="alert('Membuka materi...')">Baca Selengkapnya</button>
                         </div>
                     </div>
                 </div>
@@ -389,7 +451,7 @@
 
             <!-- HALAMAN SCREENING -->
             <div id="page-screening" class="page">
-                <h1 style="margin-bottom: 1.5rem;">Screening Risiko Akses Dialisis</h1>
+                <h1 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Screening Risiko Akses Dialisis</h1>
                 <div class="card">
                     <div class="form-group">
                         <label class="form-label">Jenis Akses</label>
@@ -398,7 +460,7 @@
                             <option value="CVC">CVC</option>
                         </select>
                     </div>
-                    <h4 style="margin: 1.5rem 0 1rem;">Parameter Klinis</h4>
+                    <h4 style="margin: 1rem 0 1rem; font-size: 1.1rem;">Parameter Klinis</h4>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <div class="form-group">
                             <label class="form-label">Thrill / Aliran</label>
@@ -412,7 +474,7 @@
                             <label class="form-label">Bruit (suara)</label>
                             <select class="form-input" id="sc_bruit">
                                 <option value="0">Normal (0)</option>
-                                <option value="1">Berubah/tinggi (1)</option>
+                                <option value="1">Berubah (1)</option>
                                 <option value="2">Tidak ada (2)</option>
                             </select>
                         </div>
@@ -420,7 +482,7 @@
                             <label class="form-label">Tanda Infeksi</label>
                             <select class="form-input" id="sc_infeksi">
                                 <option value="0">Tidak ada (0)</option>
-                                <option value="1">Kemerahan ringan (1)</option>
+                                <option value="1">Kemerahan (1)</option>
                                 <option value="2">Nanah/berat (2)</option>
                             </select>
                         </div>
@@ -451,7 +513,7 @@
                     <button class="btn btn-primary btn-full" onclick="hitungScreening()">Hitung Risiko</button>
                     <div id="hasilScreening" class="result-box"></div>
                     <div id="actionScreening" style="display: none; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem;">
-                        <h4 style="margin-bottom: 1rem;">Tindakan Lanjutan:</h4>
+                        <h4 style="margin-bottom: 1rem; font-size: 1.1rem;">Tindakan Lanjutan:</h4>
                         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                             <button class="btn btn-success" onclick="saveScreeningToMonitoring()">Simpan ke Monitoring</button>
                             <button class="btn btn-whatsapp" onclick="openWaModal()">Lapor via WhatsApp</button>
@@ -461,12 +523,42 @@
                 </div>
             </div>
 
+            <!-- HALAMAN ACARA -->
+            <div id="page-acara" class="page">
+                <h1 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Acara & Kegiatan</h1>
+                <p style="color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem;">Webinar, Seminar, dan Live Video terkait kesehatan ginjal.</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div class="acara-card">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="background: var(--accent); color: white; padding: 0.5rem; border-radius: 8px;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                            </div>
+                            <h3 style="font-size: 1.2rem;">Webinar Zoominar</h3>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Diskusi interaktif bersama ahli nefrologi.</p>
+                        <button class="btn btn-primary btn-sm" onclick="alert('Link Webinar akan dikirim ke email subscriber.')">Daftar Webinar</button>
+                    </div>
+
+                    <div class="acara-card" style="border-left-color: #FF0000;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="background: #FF0000; color: white; padding: 0.5rem; border-radius: 8px;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                            </div>
+                            <h3 style="font-size: 1.2rem;">YouTube Live</h3>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Siararan langsung edukasi kesehatan ginjal.</p>
+                        <button class="btn btn-sm" style="background: #FF0000; color: white;" onclick="window.open('https://youtube.com', '_blank')">Tonton Video</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- MODALS -->
+    <!-- MODALS ... (Sama seperti sebelumnya, tidak ada perubahan struktur signifikan) -->
     <div id="subscribeModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
-        <div class="card" style="width: 400px; max-width: 95%;">
+        <div class="card" style="width: 100%; max-width: 400px;">
             <h3 style="margin-bottom: 1rem;">Form Subscribe</h3>
             <form onsubmit="performSubscribe(event)">
                 <div class="form-group"><label class="form-label">Email</label><input type="email" id="subEmail" class="form-input" required></div>
@@ -476,16 +568,17 @@
             <button class="btn btn-outline btn-full" style="margin-top: 0.5rem;" onclick="closeSubscribeModal()">Batal</button>
         </div>
     </div>
-
+    
+    <!-- Modal Monitoring & WA (Sama) -->
     <div id="addMonitoringModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
-        <div class="card" style="width: 500px; max-width: 95%;">
+        <div class="card" style="width: 100%; max-width: 500px;">
             <h3 style="margin-bottom: 1rem;">Tambah Data Monitoring</h3>
             <form onsubmit="saveMonitoringData(event)">
                 <input type="hidden" id="editIndex" value="-1">
                 <div class="form-group"><label class="form-label">Nama Pasien</label><input type="text" id="mon_name" class="form-input" required></div>
                 <div class="form-group"><label class="form-label">Tanggal</label><input type="date" id="mon_date" class="form-input" required></div>
                 <div class="form-group"><label class="form-label">Jenis Akses</label><select id="mon_type" class="form-input"><option>AV Shunt</option><option>CVC</option></select></div>
-                <div class="form-group"><label class="form-label">Catatan / Skor</label><input type="text" id="mon_notes" class="form-input" placeholder="Contoh: Low Risk (Skor 2)"></div>
+                <div class="form-group"><label class="form-label">Catatan</label><input type="text" id="mon_notes" class="form-input" placeholder="Contoh: Low Risk"></div>
                 <button type="submit" class="btn btn-primary btn-full">Simpan</button>
             </form>
             <button class="btn btn-outline btn-full" style="margin-top: 0.5rem;" onclick="closeAddMonitoringModal()">Batal</button>
@@ -493,7 +586,7 @@
     </div>
 
     <div id="waModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
-        <div class="card" style="width: 350px; max-width: 95%;">
+        <div class="card" style="width: 100%; max-width: 350px;">
             <h3 style="margin-bottom: 1rem;">Pilih Perawat Tujuan</h3>
             <div style="display: grid; gap: 0.5rem;">
                 <button class="btn btn-whatsapp btn-full" onclick="sendWa('6282124700093', 'Hesty Dwi N')">Hesty Dwi N</button>
@@ -509,8 +602,7 @@
         // --- CONFIGURATION ---
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmXGALrxLV-4U94I6bgQ9sV1cGE0Ifca3ltAAjT7a1go0C2i2QFPESJG7F38G0zeWdOQ/exec";
         const DB_KEY = "siapteman_db";
-        const COMMENT_KEY = "siapteman_comments";
-
+        
         // --- STATE ---
         let currentUser = null;
         let isGuest = false;
@@ -521,7 +613,8 @@
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             loadData();
-            loadComments();
+            // Load comments from Cloud on start
+            syncComments(false); 
         });
 
         // --- NAVIGATION ---
@@ -532,16 +625,13 @@
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
             document.getElementById('nav-' + page).classList.add('active');
 
-            if(page === 'beranda') {
-                document.body.classList.add('show-decor');
-            } else {
-                document.body.classList.remove('show-decor');
-            }
+            // Dekorasi selalu muncul, jadi tidak perlu logic toggle show-decor
 
             if(page === 'monitoring') renderMonitoringTable();
             if(page === 'beranda') {
                 updateStats();
-                renderComments();
+                // Refresh comments when going to beranda
+                syncComments(false);
             }
         }
 
@@ -575,7 +665,6 @@
             document.getElementById('loginPage').classList.add('active');
             document.getElementById('emailInput').value = '';
             document.getElementById('passwordInput').value = '';
-            document.body.classList.remove('show-decor');
         }
 
         function showApp() {
@@ -620,13 +709,6 @@
         function saveData() {
             localStorage.setItem(DB_KEY, JSON.stringify(monitoringData));
         }
-        function loadComments() {
-            const data = localStorage.getItem(COMMENT_KEY);
-            commentsData = data ? JSON.parse(data) : [];
-        }
-        function saveComments() {
-            localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsData));
-        }
         function getStats() {
             const s = localStorage.getItem('stats');
             return s ? JSON.parse(s) : { subscribers: 0, pasien: 0, risk: 0 };
@@ -639,6 +721,7 @@
         }
         function animateNumber(id, target) {
             const el = document.getElementById(id);
+            if(!el) return;
             let current = parseInt(el.innerText);
             const increment = (target - current) / 20;
             if(increment === 0) return;
@@ -649,7 +732,7 @@
             }, 50);
         }
 
-        // --- COMMENT SECTION LOGIC ---
+        // --- COMMENT SECTION LOGIC (CLOUD BASED) ---
         function setupCommentAccess() {
             const area = document.getElementById('commentAccessArea');
             if (isGuest) {
@@ -657,7 +740,7 @@
             } else {
                 area.innerHTML = `
                     <div style="margin-bottom: 1rem;">
-                        <textarea id="newCommentText" class="form-input" style="min-height: 60px; font-size: 0.85rem; margin-bottom:0.5rem;" placeholder="Tulis komentar..."></textarea>
+                        <textarea id="newCommentText" class="form-input" style="min-height: 60px; font-size: 0.9rem; margin-bottom:0.5rem;" placeholder="Tulis komentar..."></textarea>
                         <button class="btn btn-primary btn-full btn-sm" onclick="postComment()">Kirim Komentar</button>
                     </div>`;
             }
@@ -670,7 +753,7 @@
             list.innerHTML = '';
             
             if (commentsData.length === 0) {
-                list.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:0.8rem; padding:1rem;">Belum ada komentar.</p>';
+                list.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:0.85rem; padding:1rem;">Belum ada komentar.</p>';
                 return;
             }
 
@@ -678,13 +761,34 @@
                 list.innerHTML += `
                     <div class="comment-item">
                         <div class="comment-item-header">
-                            <div class="comment-avatar">${c.initial}</div>
+                            <div class="comment-avatar">${c.initial || 'U'}</div>
                             <span class="comment-author">${c.user}</span>
                             <span class="comment-time">${c.time}</span>
                         </div>
-                        <div style="font-size: 0.85rem; color: var(--fg);">${c.text}</div>
+                        <div style="font-size: 0.9rem; color: var(--fg);">${c.text}</div>
                     </div>
                 `;
+            });
+        }
+
+        // Fungsi baru: Sinkronkan Komentar (Ambil & Kirim)
+        function syncComments(showAlert) {
+            // Ambil data dari Google Sheets
+            fetch(GOOGLE_SCRIPT_URL + "?action=getComments")
+            .then(response => response.json())
+            .then(data => {
+                if(data.result === 'success') {
+                    commentsData = data.comments.reverse(); // Terbaru di atas
+                    renderComments();
+                    if(showAlert) alert("Komentar berhasil dimuat!");
+                }
+            })
+            .catch(err => {
+                console.error("Gagal load komentar:", err);
+                // Fallback ke local jika gagal
+                const localComments = localStorage.getItem('comments_local');
+                if(localComments) commentsData = JSON.parse(localComments);
+                renderComments();
             });
         }
 
@@ -698,13 +802,31 @@
                 user: currentUser.name,
                 initial: currentUser.initial,
                 text: text,
-                time: new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})
+                time: new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}),
+                type: 'comment' // Identifier untuk Google Script
             };
 
+            // Simpan lokal sementara
             commentsData.unshift(newComment);
-            saveComments();
-            document.getElementById('newCommentText').value = '';
-            renderComments();
+            localStorage.setItem('comments_local', JSON.stringify(commentsData));
+            
+            // Kirim ke Cloud
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newComment)
+            })
+            .then(() => {
+                document.getElementById('newCommentText').value = '';
+                alert("Komentar berhasil dikirim ke cloud!");
+                // Refresh dari cloud
+                syncComments(false);
+            })
+            .catch(err => {
+                alert("Gagal mengirim komentar ke cloud.");
+            });
         }
 
         // --- MONITORING PAGE LOGIC ---
@@ -741,7 +863,8 @@
                 name: document.getElementById('mon_name').value,
                 type: document.getElementById('mon_type').value,
                 notes: document.getElementById('mon_notes').value,
-                status: document.getElementById('mon_notes').value.includes('Low') ? 'Low Risk' : document.getElementById('mon_notes').value.includes('Medium') ? 'Medium Risk' : 'High Risk'
+                status: document.getElementById('mon_notes').value.includes('Low') ? 'Low Risk' : document.getElementById('mon_notes').value.includes('Medium') ? 'Medium Risk' : 'High Risk',
+                type: 'monitoring'
             };
 
             if (index === -1) monitoringData.unshift(newItem);
@@ -773,7 +896,10 @@
         function exportPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
+            doc.setFont('helvetica');
+            doc.setFontSize(16);
             doc.text("Laporan Monitoring SIAP-TEMAN", 20, 20);
+            doc.setFontSize(12);
             let y = 30;
             monitoringData.forEach(item => {
                 doc.text(`${item.date} - ${item.name} - ${item.type} - ${item.status}`, 20, y);
@@ -828,7 +954,7 @@
             hasilDiv.style.background = bg;
             hasilDiv.style.color = color;
             hasilDiv.style.border = `1px solid ${color}`;
-            hasilDiv.innerHTML = `<h2>${status}</h2><p>Skor Total: ${total}</p>`;
+            hasilDiv.innerHTML = `<h2 style='font-size: 1.5rem;'>${status}</h2><p style='font-size: 1rem;'>Skor Total: ${total}</p>`;
 
             lastScreeningResult = {
                 date: new Date().toISOString().split('T')[0],
