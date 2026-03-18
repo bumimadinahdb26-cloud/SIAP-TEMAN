@@ -89,7 +89,12 @@
         .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
         .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; cursor: pointer; }
-        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        /* Logo Image Styling */
+        .logo img {
+            height: 40px;
+            width: auto;
+            border-radius: 8px;
+        }
         .logo-text { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--fg); }
         .nav-links { display: flex; gap: 0.5rem; }
         .nav-link { font-weight: 600; color: var(--muted); text-decoration: none; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.3s; cursor: pointer; }
@@ -113,34 +118,59 @@
         }
 
         /* Cards */
-        .card { background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
-        
+        .card { background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 1.5rem; transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-2px); }
+
+        /* Edukasi Card Custom Background */
+        .edu-card {
+            position: relative;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            overflow: hidden;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .edu-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            z-index: 1;
+        }
+        .edu-content {
+            position: relative;
+            z-index: 2;
+            padding: 1.5rem;
+        }
+
         /* Table for Monitoring */
         .data-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         .data-table th, .data-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         .data-table th { background: #f8fbfc; font-weight: 700; color: var(--fg); }
         .data-table tr:hover { background: #f0f7fa; }
 
-        /* Decorative Images (Khusus Beranda) */
+        /* Decorative Images */
         .deco-img {
             position: fixed;
             bottom: 0;
             z-index: 50;
-            width: 300px; /* Ukuran sesuai permintaan */
+            width: 300px;
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.5s ease, transform 0.5s ease;
-            transform: translateY(100%); /* Awal tersembunyi di bawah */
+            transform: translateY(100%);
         }
         .deco-left { left: 0; }
         .deco-right { right: 0; }
 
-        /* Class untuk menampilkan dekorasi hanya di Beranda */
         body.show-decor .deco-img {
             opacity: 0.9;
             transform: translateY(0);
         }
-        /* Sembunyikan dekorasi di mobile untuk menghindarkan tumpang tindih */
         @media (max-width: 768px) {
             .deco-img { display: none; }
         }
@@ -166,8 +196,7 @@
         <div class="floating-shape shape-2"></div>
     </div>
 
-    <!-- Dekorasi Karakter (Pipit & Bung-bung) -->
-    <!-- Akan ditampilkan via JS hanya di halaman Beranda -->
+    <!-- Dekorasi Karakter -->
     <img src="Pipit.png" class="deco-img deco-left" alt="Pipit">
     <img src="bung-bung.png" class="deco-img deco-right" alt="Bung-bung">
 
@@ -177,7 +206,7 @@
             <div class="login-form-section">
                 <div style="width: 100%; max-width: 380px;">
                     <div class="logo" style="margin-bottom: 2rem;">
-                        <div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                        <img src="logo.png" alt="Logo SIAP-TEMAN">
                         <span class="logo-text">SIAP-TEMAN</span>
                     </div>
                     <h1 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Selamat Datang</h1>
@@ -220,7 +249,8 @@
         <nav class="navbar">
             <div class="navbar-content">
                 <div class="logo" onclick="navigateTo('beranda')">
-                    <div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                    <!-- Logo di Header -->
+                    <img src="logo.png" alt="Logo SIAP-TEMAN">
                     <span class="logo-text">SIAP-TEMAN</span>
                 </div>
                 <div class="nav-links">
@@ -239,10 +269,9 @@
 
         <div class="content-area">
             
-            <!-- HALAMAN BERANDA (Dengan Sidebar Komentar) -->
+            <!-- HALAMAN BERANDA -->
             <div id="page-beranda" class="page active">
                 <div class="beranda-layout">
-                    <!-- Konten Utama Kiri -->
                     <div class="main-content">
                         <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Selamat Datang, <span id="userNameDisp">User</span></h1>
                         <p style="color: var(--muted); margin-bottom: 2rem;">Ringkasan data dan akses cepat layanan.</p>
@@ -280,14 +309,11 @@
                     <aside class="sidebar">
                         <div class="card" style="position: sticky; top: 100px;">
                             <h3 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
-                                Diskusi Pengguna
+                                Komentar <!-- Diubah dari Diskusi Pengguna -->
                                 <span style="background: var(--accent); color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;" id="commentCount">0</span>
                             </h3>
                             
-                            <!-- Area Komentar (Hanya Subscriber) -->
                             <div id="commentAccessArea"></div>
-
-                            <!-- Daftar Komentar -->
                             <div id="commentList" style="max-height: 400px; overflow-y: auto;"></div>
                         </div>
                     </aside>
@@ -324,19 +350,39 @@
                 </div>
             </div>
 
-            <!-- HALAMAN EDUKASI -->
+            <!-- HALAMAN EDUKASI (DENGAN BANNER BACKGROUND) -->
             <div id="page-edukasi" class="page">
                 <h1 style="margin-bottom: 1.5rem;">Edukasi Pasien</h1>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                    <div class="card">
-                        <h3 style="margin-bottom: 0.5rem;">Video Perawatan Fistula</h3>
-                        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Panduan cara merawat akses vaskular.</p>
-                        <div style="height: 200px; background: #e0e0e0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #777;">Video Placeholder</div>
+                    
+                    <!-- Kartu Edukasi 1 -->
+                    <div class="edu-card" style="background-image: url('banner-saya.png');">
+                        <div class="edu-overlay"></div>
+                        <div class="edu-content">
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Perawatan Fistula</h3>
+                            <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Langkah-langkah merawat akses vaskular di rumah untuk mencegah infeksi.</p>
+                            <button class="btn btn-primary btn-sm" onclick="alert('Membuka materi Perawatan...')">Baca Selengkapnya</button>
+                        </div>
                     </div>
-                    <div class="card">
-                        <h3 style="margin-bottom: 0.5rem;">Panduan Diet</h3>
-                        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Makanan yang disarankan dan dihindari.</p>
-                        <div style="height: 200px; background: #e0e0e0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #777;">Dokumen Placeholder</div>
+
+                    <!-- Kartu Edukasi 2 -->
+                    <div class="edu-card" style="background-image: url('banner-saya.png');">
+                        <div class="edu-overlay"></div>
+                        <div class="edu-content">
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Diet Hemodialisis</h3>
+                            <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Panduan makanan yang boleh dan tidak boleh dikonsumsi pasien dialisis.</p>
+                            <button class="btn btn-primary btn-sm" onclick="alert('Membuka materi Diet...')">Baca Selengkapnya</button>
+                        </div>
+                    </div>
+
+                    <!-- Kartu Edukasi 3 -->
+                    <div class="edu-card" style="background-image: url('banner-saya.png');">
+                        <div class="edu-overlay"></div>
+                        <div class="edu-content">
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Cek Kesehatan Mandiri</h3>
+                            <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Panduan memeriksa tanda-tanda bahaya yang perlu diwaspadai.</p>
+                            <button class="btn btn-primary btn-sm" onclick="alert('Membuka materi Cek Kesehatan...')">Baca Selengkapnya</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -419,7 +465,6 @@
     </div>
 
     <!-- MODALS -->
-    <!-- Subscribe Modal -->
     <div id="subscribeModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
         <div class="card" style="width: 400px; max-width: 95%;">
             <h3 style="margin-bottom: 1rem;">Form Subscribe</h3>
@@ -432,7 +477,6 @@
         </div>
     </div>
 
-    <!-- Monitoring Modal -->
     <div id="addMonitoringModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
         <div class="card" style="width: 500px; max-width: 95%;">
             <h3 style="margin-bottom: 1rem;">Tambah Data Monitoring</h3>
@@ -448,7 +492,6 @@
         </div>
     </div>
 
-    <!-- WA Modal -->
     <div id="waModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
         <div class="card" style="width: 350px; max-width: 95%;">
             <h3 style="margin-bottom: 1rem;">Pilih Perawat Tujuan</h3>
@@ -489,7 +532,6 @@
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
             document.getElementById('nav-' + page).classList.add('active');
 
-            // Logika Dekorasi: Tampilkan hanya di Beranda
             if(page === 'beranda') {
                 document.body.classList.add('show-decor');
             } else {
@@ -499,7 +541,7 @@
             if(page === 'monitoring') renderMonitoringTable();
             if(page === 'beranda') {
                 updateStats();
-                renderComments(); // Render komentar saat buka beranda
+                renderComments();
             }
         }
 
@@ -533,7 +575,7 @@
             document.getElementById('loginPage').classList.add('active');
             document.getElementById('emailInput').value = '';
             document.getElementById('passwordInput').value = '';
-            document.body.classList.remove('show-decor'); // Sembunyikan dekorasi saat logout
+            document.body.classList.remove('show-decor');
         }
 
         function showApp() {
@@ -610,7 +652,6 @@
         // --- COMMENT SECTION LOGIC ---
         function setupCommentAccess() {
             const area = document.getElementById('commentAccessArea');
-            // Jika tamu, tampilkan notice. Jika subscriber, tampilkan form.
             if (isGuest) {
                 area.innerHTML = `<div class="guest-notice"><p>Anda masuk sebagai Tamu. <br><strong>Login/Subscribe</strong> untuk berpartisipasi.</p></div>`;
             } else {
@@ -629,7 +670,7 @@
             list.innerHTML = '';
             
             if (commentsData.length === 0) {
-                list.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:0.8rem; padding:1rem;">Belum ada diskusi.</p>';
+                list.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:0.8rem; padding:1rem;">Belum ada komentar.</p>';
                 return;
             }
 
