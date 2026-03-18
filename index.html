@@ -10,6 +10,7 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -337,29 +338,47 @@
                     <div class="main-content">
                         <h1 class="font-caveat" style="font-size: 2.8rem; margin-bottom: 0.5rem;">Selamat Datang, <span id="userNameDisp">User</span></h1>
                         <p class="font-caveat" style="color: var(--muted); margin-bottom: 2rem; font-size: 1.5rem;">Ringkasan data dan akses cepat layanan.</p>
-
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                            <div class="card" style="text-align: center;">
+<div class="feature-card">
+  <h3 style="margin-bottom:1rem;">Statistik Risiko Pasien</h3>
+  <div class="chart-container">
+    <canvas id="riskChart"></canvas>
+  </div>
+</div>
+                        <div class="dashboard-cards">
+  <div class="stat-card stat-blue">
+    <h3 id="stat-subscriber">0</h3>
+    <p>Total Subscriber</p>
+  </div>
+  <div class="stat-card stat-green">
+    <h3 id="stat-pasien">0</h3>
+    <p>Pasien</p>
+  </div>
+  <div class="stat-card stat-yellow">
+    <h3 id="stat-risk">0</h3>
+    <p>Risiko Sedang</p>
+  </div>
+</div>
+                            <div class="feature-card" style="text-align: center;">
                                 <h3 style="font-size: 2rem; color: var(--accent-dark);" id="stat-subscriber">0</h3>
                                 <p style="font-size: 0.85rem; color: var(--muted);">Total Subscriber</p>
                             </div>
-                            <div class="card" style="text-align: center;">
+                            <div class="feature-card" style="text-align: center;">
                                 <h3 style="font-size: 2rem; color: var(--fg);" id="stat-pasien">0</h3>
                                 <p style="font-size: 0.85rem; color: var(--muted);">Pasien Terdaftar</p>
                             </div>
-                            <div class="card" style="text-align: center;">
+                            <div class="feature-card" style="text-align: center;">
                                 <h3 style="font-size: 2rem; color: var(--warning);" id="stat-risk">0</h3>
                                 <p style="font-size: 0.85rem; color: var(--muted);">Risiko Sedang</p>
                             </div>
                         </div>
 
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                            <div class="card">
+                            <div class="feature-card">
                                 <h3 style="margin-bottom: 1rem;">Monitoring Akses</h3>
                                 <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Pantau kondisi akses vaskular.</p>
                                 <button class="btn btn-primary btn-full" onclick="navigateTo('monitoring')">Buka Monitoring</button>
                             </div>
-                            <div class="card">
+                            <div class="feature-card">
                                 <h3 style="margin-bottom: 1rem;">Screening Risiko</h3>
                                 <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Deteksi dini komplikasi.</p>
                                 <button class="btn btn-primary btn-full" style="background: var(--warning);" onclick="navigateTo('screening')">Mulai Screening</button>
@@ -369,7 +388,7 @@
 
                     <!-- Sidebar Komentar -->
                     <aside class="sidebar">
-                        <div class="card" style="position: sticky; top: 100px;">
+                        <div class="feature-card" style="position: sticky; top: 100px;">
                             <h3 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
                                 Komentar
                                 <span style="background: var(--accent); color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;" id="commentCount">0</span>
@@ -394,7 +413,7 @@
                         <button class="btn btn-secondary btn-sm" onclick="exportPDF()">Simpan PDF</button>
                     </div>
                 </div>
-                <div class="card" id="monitoringTableContainer">
+                <div class="feature-card" id="monitoringTableContainer">
                     <p style="font-size: 0.85rem; color: var(--muted);">Data tersimpan di perangkat (Local Storage).</p>
                     <div style="overflow-x: auto;">
                         <table class="data-table">
@@ -440,7 +459,7 @@
             <!-- HALAMAN SCREENING -->
             <div id="page-screening" class="page">
                 <h1 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Screening Risiko Akses Dialisis</h1>
-                <div class="card">
+                <div class="feature-card">
                     <div class="form-group">
                         <label class="form-label">Jenis Akses</label>
                         <select class="form-input" id="sc_jenis">
@@ -546,7 +565,7 @@
 
     <!-- MODALS -->
     <div id="subscribeModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
-        <div class="card" style="width: 100%; max-width: 400px;">
+        <div class="feature-card" style="width: 100%; max-width: 400px;">
             <h3 style="margin-bottom: 1rem;">Form Subscribe</h3>
             <form onsubmit="performSubscribe(event)">
                 <div class="form-group"><label class="form-label">Email</label><input type="email" id="subEmail" class="form-input" required></div>
@@ -558,7 +577,7 @@
     </div>
     
     <div id="addMonitoringModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
-        <div class="card" style="width: 100%; max-width: 500px;">
+        <div class="feature-card" style="width: 100%; max-width: 500px;">
             <h3 style="margin-bottom: 1rem;">Tambah Data Monitoring</h3>
             <form onsubmit="saveMonitoringData(event)">
                 <input type="hidden" id="editIndex" value="-1">
@@ -573,7 +592,7 @@
     </div>
 
     <div id="waModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
-        <div class="card" style="width: 100%; max-width: 350px;">
+        <div class="feature-card" style="width: 100%; max-width: 350px;">
             <h3 style="margin-bottom: 1rem;">Pilih Perawat Tujuan</h3>
             <div style="display: grid; gap: 0.5rem;">
                 <button class="btn btn-whatsapp btn-full" onclick="sendWa('6282124700093', 'Hesty Dwi N')">Hesty Dwi N</button>
@@ -613,10 +632,11 @@
             document.getElementById('nav-' + page).classList.add('active');
 
             if(page === 'monitoring') renderMonitoringTable();
-            if(page === 'beranda') {
-                updateStats();
-                syncComments(false);
-            }
+           if(page === 'beranda') {
+    updateStats();
+    renderChart(); // tambah ini
+    syncComments(false);
+}
         }
 
         // --- AUTH ---
@@ -959,6 +979,77 @@
             const url = `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
             window.open(url, '_blank');
         }
+
+        /* ===== CARD MODERN DASHBOARD ===== */
+.dashboard-cards {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap:1rem;
+  margin-bottom:2rem;
+}
+
+.stat-card {
+  padding:1.5rem;
+  border-radius:20px;
+  color:white;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.stat-blue { background:linear-gradient(135deg,#36d1dc,#5b86e5); }
+.stat-green { background:linear-gradient(135deg,#00b09b,#96c93d); }
+.stat-yellow { background:linear-gradient(135deg,#f7971e,#ffd200); }
+
+/* ===== FEATURE CARD ===== */
+.feature-card {
+  border-radius:20px;
+  padding:1.5rem;
+  background:rgba(255,255,255,0.9);
+  backdrop-filter:blur(10px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+  transition:0.3s;
+}
+
+.feature-card:hover {
+  transform:translateY(-5px);
+}
+
+/* ===== CHART ===== */
+.chart-container {
+  max-width:400px;
+  margin:auto;
+}
+
+    function renderChart(){
+  const stats = getStats();
+
+  const ctx = document.getElementById('riskChart');
+  if(!ctx) return;
+
+  new Chart(ctx, {
+    type:'doughnut',
+    data:{
+      labels:['Low Risk','Medium Risk','High Risk'],
+      datasets:[{
+        data:[
+          stats.pasien - stats.risk, // asumsi low
+          stats.risk,
+          5 // dummy high (bisa kamu kembangkan nanti)
+        ],
+        backgroundColor:[
+          '#10b981',
+          '#f59e0b',
+          '#ef4444'
+        ]
+      }]
+    },
+    options:{
+      plugins:{
+        legend:{ position:'bottom' }
+      }
+    }
+  });
+}
     </script>
 </body>
 </html>
