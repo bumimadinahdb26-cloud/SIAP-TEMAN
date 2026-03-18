@@ -7,7 +7,6 @@
     
     <!-- Library untuk PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <!-- Tailwind & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -98,7 +97,21 @@
         
         /* Main Content Area */
         .content-area { padding: 2rem; max-width: 1400px; margin: 0 auto; }
-        
+
+        /* Layout Khusus Halaman Beranda (2 Kolom) */
+        .beranda-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px; /* Konten utama + Sidebar */
+            gap: 2rem;
+            align-items: flex-start;
+        }
+        /* Responsif Beranda: Stack pada HP */
+        @media (max-width: 1024px) {
+            .beranda-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* Cards */
         .card { background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
         
@@ -108,19 +121,39 @@
         .data-table th { background: #f8fbfc; font-weight: 700; color: var(--fg); }
         .data-table tr:hover { background: #f0f7fa; }
 
-        /* WA Select Dropdown */
-        .wa-list { display: grid; gap: 0.5rem; margin-top: 1rem; }
+        /* Decorative Images (Khusus Beranda) */
+        .deco-img {
+            position: fixed;
+            bottom: 0;
+            z-index: 50;
+            width: 300px; /* Ukuran sesuai permintaan */
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(100%); /* Awal tersembunyi di bawah */
+        }
+        .deco-left { left: 0; }
+        .deco-right { right: 0; }
 
-        /* Decorative Images */
-        .deco-img { position: fixed; bottom: 0; z-index: 10; width: 300px; pointer-events: none; opacity: 0.8; transition: transform 0.3s; }
-        .deco-left { left: 0; transform-origin: bottom left; }
-        .deco-right { right: 0; transform-origin: bottom right; }
-        /* Hide decoration on small screens */
-        @media (max-width: 1200px) { .deco-img { display: none; } }
+        /* Class untuk menampilkan dekorasi hanya di Beranda */
+        body.show-decor .deco-img {
+            opacity: 0.9;
+            transform: translateY(0);
+        }
+        /* Sembunyikan dekorasi di mobile untuk menghindarkan tumpang tindih */
+        @media (max-width: 768px) {
+            .deco-img { display: none; }
+        }
 
         /* Result Box Screening */
         .result-box { padding: 1.5rem; border-radius: 12px; text-align: center; margin-top: 1.5rem; display: none; }
         
+        /* Comment Section Styles */
+        .comment-item { padding: 1rem; border-radius: 12px; background: #f8fbfc; margin-bottom: 0.75rem; animation: fadeIn 0.4s ease; }
+        .comment-item-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .comment-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 600; }
+        .guest-notice { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 1rem; text-align: center; margin-bottom: 1rem; color: var(--warning); font-size: 0.85rem; }
+
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -132,6 +165,11 @@
         <div class="floating-shape shape-1"></div>
         <div class="floating-shape shape-2"></div>
     </div>
+
+    <!-- Dekorasi Karakter (Pipit & Bung-bung) -->
+    <!-- Akan ditampilkan via JS hanya di halaman Beranda -->
+    <img src="Pipit.png" class="deco-img deco-left" alt="Pipit">
+    <img src="bung-bung.png" class="deco-img deco-right" alt="Bung-bung">
 
     <!-- LOGIN PAGE -->
     <div id="loginPage" class="page active">
@@ -166,7 +204,6 @@
 
             <div class="login-illustration">
                 <div class="login-image-container">
-                    <!-- Pastikan file login.gif ada di folder yang sama -->
                     <img src="login.gif" alt="Login Illustration">
                 </div>
                 <div style="z-index: 2;">
@@ -177,7 +214,7 @@
         </div>
     </div>
 
-    <!-- APP SHELL (Setelah Login) -->
+    <!-- APP SHELL -->
     <div id="appShell" style="display: none;">
         <!-- Navbar -->
         <nav class="navbar">
@@ -200,45 +237,60 @@
             </div>
         </nav>
 
-        <!-- Dekorasi Karakter (Hanya terlihat di layar besar) -->
-        <!-- Pastikan Pipit.png dan bung-bung.png ada di folder yang sama -->
-        <img src="Pipit.png" class="deco-img deco-left" alt="Pipit">
-        <img src="bung-bung.png" class="deco-img deco-right" alt="Bung-bung">
-
-        <!-- CONTAINER HALAMAN -->
         <div class="content-area">
             
-            <!-- HALAMAN BERANDA -->
+            <!-- HALAMAN BERANDA (Dengan Sidebar Komentar) -->
             <div id="page-beranda" class="page active">
-                <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Selamat Datang, <span id="userNameDisp">User</span></h1>
-                <p style="color: var(--muted); margin-bottom: 2rem;">Ringkasan data dan akses cepat layanan.</p>
+                <div class="beranda-layout">
+                    <!-- Konten Utama Kiri -->
+                    <div class="main-content">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Selamat Datang, <span id="userNameDisp">User</span></h1>
+                        <p style="color: var(--muted); margin-bottom: 2rem;">Ringkasan data dan akses cepat layanan.</p>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                    <div class="card" style="text-align: center;">
-                        <h3 style="font-size: 2rem; color: var(--accent-dark);" id="stat-subscriber">0</h3>
-                        <p style="font-size: 0.8rem; color: var(--muted);">Total Subscriber Aktif</p>
-                    </div>
-                    <div class="card" style="text-align: center;">
-                        <h3 style="font-size: 2rem; color: var(--fg);" id="stat-pasien">0</h3>
-                        <p style="font-size: 0.8rem; color: var(--muted);">Pasien Terdaftar</p>
-                    </div>
-                    <div class="card" style="text-align: center;">
-                        <h3 style="font-size: 2rem; color: var(--warning);" id="stat-risk">0</h3>
-                        <p style="font-size: 0.8rem; color: var(--muted);">Risiko Sedang</p>
-                    </div>
-                </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                            <div class="card" style="text-align: center;">
+                                <h3 style="font-size: 1.8rem; color: var(--accent-dark);" id="stat-subscriber">0</h3>
+                                <p style="font-size: 0.75rem; color: var(--muted);">Total Subscriber</p>
+                            </div>
+                            <div class="card" style="text-align: center;">
+                                <h3 style="font-size: 1.8rem; color: var(--fg);" id="stat-pasien">0</h3>
+                                <p style="font-size: 0.75rem; color: var(--muted);">Pasien Terdaftar</p>
+                            </div>
+                            <div class="card" style="text-align: center;">
+                                <h3 style="font-size: 1.8rem; color: var(--warning);" id="stat-risk">0</h3>
+                                <p style="font-size: 0.75rem; color: var(--muted);">Risiko Sedang</p>
+                            </div>
+                        </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                    <div class="card">
-                        <h3 style="margin-bottom: 1rem;">Monitoring Akses</h3>
-                        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Pantau kondisi akses vaskular Anda secara berkala.</p>
-                        <button class="btn btn-primary" onclick="navigateTo('monitoring')">Buka Monitoring</button>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <div class="card">
+                                <h3 style="margin-bottom: 1rem;">Monitoring Akses</h3>
+                                <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Pantau kondisi akses vaskular.</p>
+                                <button class="btn btn-primary btn-full" onclick="navigateTo('monitoring')">Buka Monitoring</button>
+                            </div>
+                            <div class="card">
+                                <h3 style="margin-bottom: 1rem;">Screening Risiko</h3>
+                                <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Deteksi dini komplikasi.</p>
+                                <button class="btn btn-primary btn-full" style="background: var(--warning);" onclick="navigateTo('screening')">Mulai Screening</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card">
-                        <h3 style="margin-bottom: 1rem;">Screening Risiko</h3>
-                        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Deteksi dini risiko komplikasi akses dialisis.</p>
-                        <button class="btn btn-primary" style="background: var(--warning);" onclick="navigateTo('screening')">Mulai Screening</button>
-                    </div>
+
+                    <!-- Sidebar Kanan (Komentar) -->
+                    <aside class="sidebar">
+                        <div class="card" style="position: sticky; top: 100px;">
+                            <h3 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                                Diskusi Pengguna
+                                <span style="background: var(--accent); color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;" id="commentCount">0</span>
+                            </h3>
+                            
+                            <!-- Area Komentar (Hanya Subscriber) -->
+                            <div id="commentAccessArea"></div>
+
+                            <!-- Daftar Komentar -->
+                            <div id="commentList" style="max-height: 400px; overflow-y: auto;"></div>
+                        </div>
+                    </aside>
                 </div>
             </div>
 
@@ -252,24 +304,23 @@
                         <button class="btn btn-secondary btn-sm" onclick="exportPDF()">Simpan PDF</button>
                     </div>
                 </div>
-
                 <div class="card" id="monitoringTableContainer">
-                    <p style="font-size: 0.9rem; color: var(--muted);">Data tersimpan di perangkat (Local Storage) dan siap disinkronkan ke Cloud.</p>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Tanggal</th>
-                                <th>Nama Pasien</th>
-                                <th>Jenis Akses</th>
-                                <th>Catatan/ Skor</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="monitoringBody">
-                            <!-- Data akan diisi JS -->
-                        </tbody>
-                    </table>
+                    <p style="font-size: 0.9rem; color: var(--muted);">Data tersimpan di perangkat (Local Storage).</p>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Nama</th>
+                                    <th>Jenis Akses</th>
+                                    <th>Catatan</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="monitoringBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -279,7 +330,7 @@
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
                     <div class="card">
                         <h3 style="margin-bottom: 0.5rem;">Video Perawatan Fistula</h3>
-                        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Panduan cara merawat akses vaskular di rumah.</p>
+                        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Panduan cara merawat akses vaskular.</p>
                         <div style="height: 200px; background: #e0e0e0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #777;">Video Placeholder</div>
                     </div>
                     <div class="card">
@@ -293,7 +344,6 @@
             <!-- HALAMAN SCREENING -->
             <div id="page-screening" class="page">
                 <h1 style="margin-bottom: 1.5rem;">Screening Risiko Akses Dialisis</h1>
-                
                 <div class="card">
                     <div class="form-group">
                         <label class="form-label">Jenis Akses</label>
@@ -302,9 +352,7 @@
                             <option value="CVC">CVC</option>
                         </select>
                     </div>
-
                     <h4 style="margin: 1.5rem 0 1rem;">Parameter Klinis</h4>
-                    
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <div class="form-group">
                             <label class="form-label">Thrill / Aliran</label>
@@ -331,14 +379,14 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Demam / Sistemik</label>
+                            <label class="form-label">Demam</label>
                             <select class="form-input" id="sc_demam">
                                 <option value="0">Tidak (0)</option>
                                 <option value="2">Ya (2)</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Nyeri / Bengkak</label>
+                            <label class="form-label">Nyeri</label>
                             <select class="form-input" id="sc_nyeri">
                                 <option value="0">Tidak (0)</option>
                                 <option value="1">Ringan (1)</option>
@@ -354,11 +402,8 @@
                             </select>
                         </div>
                     </div>
-
                     <button class="btn btn-primary btn-full" onclick="hitungScreening()">Hitung Risiko</button>
-
                     <div id="hasilScreening" class="result-box"></div>
-
                     <div id="actionScreening" style="display: none; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem;">
                         <h4 style="margin-bottom: 1rem;">Tindakan Lanjutan:</h4>
                         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
@@ -373,61 +418,41 @@
         </div>
     </div>
 
-    <!-- MODAL: SUBSCRIBE -->
+    <!-- MODALS -->
+    <!-- Subscribe Modal -->
     <div id="subscribeModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
         <div class="card" style="width: 400px; max-width: 95%;">
             <h3 style="margin-bottom: 1rem;">Form Subscribe</h3>
             <form onsubmit="performSubscribe(event)">
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="subEmail" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" id="subPass" class="form-input" required>
-                </div>
+                <div class="form-group"><label class="form-label">Email</label><input type="email" id="subEmail" class="form-input" required></div>
+                <div class="form-group"><label class="form-label">Password</label><input type="password" id="subPass" class="form-input" required></div>
                 <button type="submit" class="btn btn-primary btn-full">Daftar</button>
             </form>
             <button class="btn btn-outline btn-full" style="margin-top: 0.5rem;" onclick="closeSubscribeModal()">Batal</button>
         </div>
     </div>
 
-    <!-- MODAL: ADD MONITORING -->
+    <!-- Monitoring Modal -->
     <div id="addMonitoringModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
         <div class="card" style="width: 500px; max-width: 95%;">
             <h3 style="margin-bottom: 1rem;">Tambah Data Monitoring</h3>
             <form onsubmit="saveMonitoringData(event)">
                 <input type="hidden" id="editIndex" value="-1">
-                <div class="form-group">
-                    <label class="form-label">Nama Pasien</label>
-                    <input type="text" id="mon_name" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tanggal</label>
-                    <input type="date" id="mon_date" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Jenis Akses</label>
-                    <select id="mon_type" class="form-input">
-                        <option>AV Shunt</option>
-                        <option>CVC</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Catatan / Skor</label>
-                    <input type="text" id="mon_notes" class="form-input" placeholder="Contoh: Low Risk (Skor 2)">
-                </div>
+                <div class="form-group"><label class="form-label">Nama Pasien</label><input type="text" id="mon_name" class="form-input" required></div>
+                <div class="form-group"><label class="form-label">Tanggal</label><input type="date" id="mon_date" class="form-input" required></div>
+                <div class="form-group"><label class="form-label">Jenis Akses</label><select id="mon_type" class="form-input"><option>AV Shunt</option><option>CVC</option></select></div>
+                <div class="form-group"><label class="form-label">Catatan / Skor</label><input type="text" id="mon_notes" class="form-input" placeholder="Contoh: Low Risk (Skor 2)"></div>
                 <button type="submit" class="btn btn-primary btn-full">Simpan</button>
             </form>
             <button class="btn btn-outline btn-full" style="margin-top: 0.5rem;" onclick="closeAddMonitoringModal()">Batal</button>
         </div>
     </div>
 
-    <!-- MODAL: WHATSAPP LIST -->
+    <!-- WA Modal -->
     <div id="waModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
         <div class="card" style="width: 350px; max-width: 95%;">
             <h3 style="margin-bottom: 1rem;">Pilih Perawat Tujuan</h3>
-            <div class="wa-list">
+            <div style="display: grid; gap: 0.5rem;">
                 <button class="btn btn-whatsapp btn-full" onclick="sendWa('6282124700093', 'Hesty Dwi N')">Hesty Dwi N</button>
                 <button class="btn btn-whatsapp btn-full" onclick="sendWa('6283831217784', 'Pembayun')">Pembayun</button>
                 <button class="btn btn-whatsapp btn-full" onclick="sendWa('6285210622568', 'Rinda')">Rinda</button>
@@ -439,35 +464,43 @@
 
     <script>
         // --- CONFIGURATION ---
-        // URL yang diberikan user
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmXGALrxLV-4U94I6bgQ9sV1cGE0Ifca3ltAAjT7a1go0C2i2QFPESJG7F38G0zeWdOQ/exec";
         const DB_KEY = "siapteman_db";
+        const COMMENT_KEY = "siapteman_comments";
 
         // --- STATE ---
         let currentUser = null;
         let isGuest = false;
         let monitoringData = [];
+        let commentsData = [];
         let lastScreeningResult = {};
 
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             loadData();
+            loadComments();
         });
 
         // --- NAVIGATION ---
         function navigateTo(page) {
-            // Hide all pages
             document.querySelectorAll('#appShell .page').forEach(p => p.classList.remove('active'));
-            // Show target page
             document.getElementById('page-' + page).classList.add('active');
             
-            // Update Nav Active State
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
             document.getElementById('nav-' + page).classList.add('active');
 
-            // Special actions on page load
+            // Logika Dekorasi: Tampilkan hanya di Beranda
+            if(page === 'beranda') {
+                document.body.classList.add('show-decor');
+            } else {
+                document.body.classList.remove('show-decor');
+            }
+
             if(page === 'monitoring') renderMonitoringTable();
-            if(page === 'beranda') updateStats();
+            if(page === 'beranda') {
+                updateStats();
+                renderComments(); // Render komentar saat buka beranda
+            }
         }
 
         // --- AUTH ---
@@ -479,11 +512,8 @@
         function login(email) {
             currentUser = { name: extractName(email), initial: extractName(email).charAt(0) };
             isGuest = false;
-            
-            // Check if user already in LocalDB (simulate unique subscriber count)
             if(!localStorage.getItem('user_' + email)) {
                 localStorage.setItem('user_' + email, JSON.stringify({subscribed: true}));
-                // Increment stats
                 let stats = getStats();
                 stats.subscribers++;
                 stats.pasien++;
@@ -503,6 +533,7 @@
             document.getElementById('loginPage').classList.add('active');
             document.getElementById('emailInput').value = '';
             document.getElementById('passwordInput').value = '';
+            document.body.classList.remove('show-decor'); // Sembunyikan dekorasi saat logout
         }
 
         function showApp() {
@@ -518,7 +549,7 @@
             return email ? email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1) : 'User';
         }
 
-        // --- SUBSCRIBE MODAL ---
+        // --- MODAL HELPERS ---
         function openSubscribeModal() { document.getElementById('subscribeModal').style.display = 'flex'; }
         function closeSubscribeModal() { document.getElementById('subscribeModal').style.display = 'none'; }
         function performSubscribe(e) {
@@ -527,41 +558,115 @@
             closeSubscribeModal();
             login(email);
         }
+        function openAddMonitoringModal() { 
+            document.getElementById('editIndex').value = -1;
+            document.getElementById('mon_name').value = currentUser.name;
+            document.getElementById('mon_date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('mon_type').value = 'AV Shunt';
+            document.getElementById('mon_notes').value = '';
+            document.getElementById('addMonitoringModal').style.display = 'flex'; 
+        }
+        function closeAddMonitoringModal() { document.getElementById('addMonitoringModal').style.display = 'none'; }
+        function openWaModal() { document.getElementById('waModal').style.display = 'flex'; }
+        function closeWaModal() { document.getElementById('waModal').style.display = 'none'; }
 
         // --- DATA MANAGEMENT ---
         function loadData() {
             const data = localStorage.getItem(DB_KEY);
             monitoringData = data ? JSON.parse(data) : [];
         }
-
         function saveData() {
             localStorage.setItem(DB_KEY, JSON.stringify(monitoringData));
         }
-
+        function loadComments() {
+            const data = localStorage.getItem(COMMENT_KEY);
+            commentsData = data ? JSON.parse(data) : [];
+        }
+        function saveComments() {
+            localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsData));
+        }
         function getStats() {
             const s = localStorage.getItem('stats');
             return s ? JSON.parse(s) : { subscribers: 0, pasien: 0, risk: 0 };
         }
-
         function updateStats() {
             const stats = getStats();
             animateNumber('stat-subscriber', stats.subscribers);
             animateNumber('stat-pasien', stats.pasien);
             animateNumber('stat-risk', stats.risk);
         }
-
         function animateNumber(id, target) {
             const el = document.getElementById(id);
-            let current = 0;
-            const increment = target / 20;
+            let current = parseInt(el.innerText);
+            const increment = (target - current) / 20;
+            if(increment === 0) return;
             const timer = setInterval(() => {
                 current += increment;
-                if (current >= target) { current = target; clearInterval(timer); }
+                if ((increment > 0 && current >= target) || (increment < 0 && current <= target)) { current = target; clearInterval(timer); }
                 el.innerText = Math.floor(current);
             }, 50);
         }
 
-        // --- MONITORING PAGE ---
+        // --- COMMENT SECTION LOGIC ---
+        function setupCommentAccess() {
+            const area = document.getElementById('commentAccessArea');
+            // Jika tamu, tampilkan notice. Jika subscriber, tampilkan form.
+            if (isGuest) {
+                area.innerHTML = `<div class="guest-notice"><p>Anda masuk sebagai Tamu. <br><strong>Login/Subscribe</strong> untuk berpartisipasi.</p></div>`;
+            } else {
+                area.innerHTML = `
+                    <div style="margin-bottom: 1rem;">
+                        <textarea id="newCommentText" class="form-input" style="min-height: 60px; font-size: 0.85rem; margin-bottom:0.5rem;" placeholder="Tulis komentar..."></textarea>
+                        <button class="btn btn-primary btn-full btn-sm" onclick="postComment()">Kirim Komentar</button>
+                    </div>`;
+            }
+        }
+
+        function renderComments() {
+            setupCommentAccess();
+            const list = document.getElementById('commentList');
+            document.getElementById('commentCount').textContent = commentsData.length;
+            list.innerHTML = '';
+            
+            if (commentsData.length === 0) {
+                list.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:0.8rem; padding:1rem;">Belum ada diskusi.</p>';
+                return;
+            }
+
+            commentsData.forEach(c => {
+                list.innerHTML += `
+                    <div class="comment-item">
+                        <div class="comment-item-header">
+                            <div class="comment-avatar">${c.initial}</div>
+                            <span class="comment-author">${c.user}</span>
+                            <span class="comment-time">${c.time}</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--fg);">${c.text}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function postComment() {
+            const text = document.getElementById('newCommentText').value.trim();
+            if (!text) { alert("Komentar tidak boleh kosong."); return; }
+            if (isGuest) { alert("Anda harus login untuk berkomentar."); return; }
+
+            const newComment = {
+                id: Date.now(),
+                user: currentUser.name,
+                initial: currentUser.initial,
+                text: text,
+                time: new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})
+            };
+
+            commentsData.unshift(newComment);
+            saveComments();
+            document.getElementById('newCommentText').value = '';
+            renderComments();
+        }
+
+        // --- MONITORING PAGE LOGIC ---
         function renderMonitoringTable() {
             const tbody = document.getElementById('monitoringBody');
             tbody.innerHTML = '';
@@ -586,17 +691,6 @@
                 `;
             });
         }
-
-        function openAddMonitoringModal() { 
-            document.getElementById('editIndex').value = -1;
-            document.getElementById('mon_name').value = currentUser.name;
-            document.getElementById('mon_date').value = new Date().toISOString().split('T')[0];
-            document.getElementById('mon_type').value = 'AV Shunt';
-            document.getElementById('mon_notes').value = '';
-            document.getElementById('addMonitoringModal').style.display = 'flex'; 
-        }
-
-        function closeAddMonitoringModal() { document.getElementById('addMonitoringModal').style.display = 'none'; }
 
         function saveMonitoringData(e) {
             e.preventDefault();
@@ -649,12 +743,7 @@
         }
 
         function syncToCloud() {
-            if(monitoringData.length === 0) {
-                alert("Tidak ada data untuk disinkronkan.");
-                return;
-            }
-            
-            // Tampilkan loading atau disable button
+            if(monitoringData.length === 0) { alert("Tidak ada data."); return; }
             const btn = event.target;
             btn.innerText = "Mengirim...";
             btn.disabled = true;
@@ -666,19 +755,11 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(monitoringData)
             })
-            .then(() => {
-                alert("Data berhasil dikirim ke Google Sheets!");
-                btn.innerText = "Sync ke Cloud";
-                btn.disabled = false;
-            })
-            .catch(err => {
-                alert("Gagal mengirim data. Cek koneksi internet.");
-                btn.innerText = "Sync ke Cloud";
-                btn.disabled = false;
-            });
+            .then(() => { alert("Data berhasil dikirim ke Google Sheets!"); btn.innerText = "Sync ke Cloud"; btn.disabled = false; })
+            .catch(err => { alert("Gagal mengirim."); btn.innerText = "Sync ke Cloud"; btn.disabled = false; });
         }
 
-        // --- SCREENING PAGE ---
+        // --- SCREENING PAGE LOGIC ---
         function hitungScreening() {
             let total = 0;
             total += parseInt(document.getElementById("sc_thrill").value);
@@ -695,28 +776,25 @@
 
             let status, color, bg;
             if(total <= 2){
-                status = "LOW RISK (Akses Aman)"; color = "var(--success)"; bg = "rgba(16, 185, 129, 0.1)";
+                status = "LOW RISK"; color = "var(--success)"; bg = "rgba(16, 185, 129, 0.1)";
             } else if(total <= 5){
-                status = "MEDIUM RISK (Perlu Monitoring)"; color = "var(--warning)"; bg = "rgba(245, 158, 11, 0.1)";
-                // Update Stats
-                let stats = getStats();
-                stats.risk++;
-                localStorage.setItem('stats', JSON.stringify(stats));
+                status = "MEDIUM RISK"; color = "var(--warning)"; bg = "rgba(245, 158, 11, 0.1)";
+                let stats = getStats(); stats.risk++; localStorage.setItem('stats', JSON.stringify(stats));
             } else {
-                status = "HIGH RISK (Segera Tindakan)"; color = "var(--danger)"; bg = "rgba(239, 68, 68, 0.1)";
+                status = "HIGH RISK"; color = "var(--danger)"; bg = "rgba(239, 68, 68, 0.1)";
             }
 
             hasilDiv.style.background = bg;
             hasilDiv.style.color = color;
             hasilDiv.style.border = `1px solid ${color}`;
-            hasilDiv.innerHTML = `<h2 style="margin-bottom:5px;">${status}</h2><p>Skor Total: ${total}</p>`;
+            hasilDiv.innerHTML = `<h2>${status}</h2><p>Skor Total: ${total}</p>`;
 
             lastScreeningResult = {
                 date: new Date().toISOString().split('T')[0],
                 name: currentUser.name,
                 type: document.getElementById('sc_jenis').value,
                 notes: `Skor ${total}`,
-                status: status.split(' ')[0] + " RISK"
+                status: status
             };
         }
 
@@ -728,17 +806,11 @@
         }
 
         function ignoreScreening() {
-            if(confirm('Abaikan hasil screening?')) {
-                navigateTo('beranda');
-            }
+            if(confirm('Abaikan hasil screening?')) { navigateTo('beranda'); }
         }
 
-        // --- WHATSAPP INTEGRATION ---
-        function openWaModal() { document.getElementById('waModal').style.display = 'flex'; }
-        function closeWaModal() { document.getElementById('waModal').style.display = 'none'; }
-
         function sendWa(number, name) {
-            const msg = `Halo ${name}, saya ${currentUser.name}. Hasil screening saya: ${lastScreeningResult.status} (${lastScreeningResult.notes}). Mohon arahan selanjutnya. Terima kasih.`;
+            const msg = `Halo ${name}, saya ${currentUser.name}. Hasil screening saya: ${lastScreeningResult.status} (${lastScreeningResult.notes}). Mohon arahan selanjutnya.`;
             const url = `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
             window.open(url, '_blank');
         }
